@@ -39,16 +39,6 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
-      - name: Cache modules
-        uses: actions/cache@v4
-        id: cache-modules
-        with:
-          path: |
-            ~/.m2/repository
-          key: autobuild-${{ matrix.language }}-${{ hashFiles('pom.xml', '**/pom.xml', '**/**/pom.xml') }}
-          restore-keys: |
-            autobuild-${{ matrix.language }}-
-
       - name: Auto Build
         uses: github/codeql-action/autobuild@v3
 

@@ -15,29 +15,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         java-version: [ 17, 21 ]
         os: [ ubuntu-latest ]
-
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java-version }}
           distribution: 'temurin'
-
-      - name: Cache modules
-        uses: actions/cache@v4
-        id: cache-modules
-        with:
-          path: |
-            ~/.m2/repository
-          key: autobuild-${{ matrix.java-version }}-${{ hashFiles('pom.xml', '**/pom.xml', '**/**/pom.xml') }}
-          restore-keys: |
-            autobuild-${{ matrix.java-version }}-
+          cache: maven
 
       - name: Build with Maven
         run: mvn -B package --ntp
