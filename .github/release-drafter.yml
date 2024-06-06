@@ -23,6 +23,7 @@ categories:
     labels:
       - bug
       - fix
+      - hotfix
       - bugfix
   - title: 🌐 Localization and translation
     labels:
@@ -52,8 +53,6 @@ exclude-labels:
   - skip-changelog
   - invalid
 
-change-template: '* $TITLE (#$NUMBER) @$AUTHOR'
-
 autolabeler:
   - label: 'documentation'
     files:
@@ -63,6 +62,7 @@ autolabeler:
   - label: 'bug'
     branch:
       - '/fix\/.+/'
+      - '/hotfix\/.+/'
       - '/bugfix\/.+/'
   - label: 'enhancement'
     branch:
