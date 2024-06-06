@@ -1,0 +1,113 @@
+services:
+  mysql:
+    image: bitnami/mysql:8.4.0
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=spring-boot3-monolith
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ 'CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh' ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysql_data:/bitnami/mysql/data
+
+  redis:
+    restart: always
+    image: bitnami/redis:7.2
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/bitnami/redis/data
+    healthcheck:
+      test: [ "CMD", "redis-cli","--raw", "incr","ping" ]
+      interval: 2s
+      retries: 30
+
+  # https://elnatantorres.medium.com/configuring-rabbitmq-on-its-startup-with-docker-d219af4b751a
+  rabbitmq:
+    image: bitnami/rabbitmq:3.13.3
+    environment:
+      RABBITMQ_LOAD_DEFINITIONS: "true"
+      # definition is set with -> user: password
+      RABBITMQ_DEFINITIONS_FILE: /etc/rabbitmq/definitions.json
+      RABBITMQ_PLUGINS: rabbitmq_shovel rabbitmq_shovel_management rabbitmq_delayed_message_exchange
+      RABBITMQ_COMMUNITY_PLUGINS: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./scripts/configs/rabbitmq-definition.json:/etc/rabbitmq/definitions.json
+      - ./scripts/configs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - rabbitmq_data:/bitnami/rabbitmq/mnesia
+
+  pyroscope:
+    image: grafana/pyroscope
+    ports:
+      - "4040:4040"
+
+  # 1. 从源码通过 spring-boot 运行程序
+  spring-boot3-monolith:
+    container_name: spring-boot3-monolith
+    image: maven:3.9.6-eclipse-temurin-21
+    volumes:
+      - .:/usr/src/workdir
+      - ~/.m2:/root/.m2
+    working_dir: /usr/src/workdir
+    command: "mvn clean -DskipTests spring-boot:run"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: [ 'CMD-SHELL','curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1' ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # 2. mvn spring-boot:build-image
+  # docker run  -p 8080:8080 --platform linux/amd64 --network host  spring-boot3-monolith:0.0.1-SNAPSHOT
+
+  # 3. 使用 docker 构建镜像，需要先执行 maven package -DskipTests
+  spring-boot3-monolith-image:
+    build: .
+    image: chensoul/spring-boot3-monolith
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: [ 'CMD-SHELL','curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1' ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  rabbitmq_data:
+  mysql_data:
+  redis_data:

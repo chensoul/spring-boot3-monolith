@@ -1,0 +1,76 @@
+# https://github.com/toolmantim/release-drafter
+# https://github.com/jenkinsci/.github/blob/master/.github/release-drafter.yml
+
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+
+# Emoji reference: https://gitmoji.carloscuesta.me/
+categories:
+  - title: 💥 Breaking changes
+    labels:
+      - breaking
+  - title: 🚨 Removed
+    labels:
+      - removed
+  - title: ⚠️ Deprecated
+    labels:
+      - deprecated
+  - title: 🚀 New features
+    labels:
+      - enhancement
+      - feature
+  - title: 🐛 Bug fixes
+    labels:
+      - bug
+      - fix
+      - bugfix
+  - title: 🌐 Localization and translation
+    labels:
+      - localization
+  - title: 📝 Documentation updates
+    labels:
+      - documentation
+  - title: 👻 Maintenance
+    labels:
+      - chore
+      - internal
+      - maintenance
+  - title: 🚦 Tests
+    labels:
+      - test
+      - tests
+  - title: ✍ Other changes
+  # Default label used by Dependabot
+  - title: 📦 Dependency updates
+    labels:
+      - dependencies
+    collapse-after: 15
+
+exclude-labels:
+  - reverted
+  - no-changelog
+  - skip-changelog
+  - invalid
+
+change-template: '* $TITLE (#$NUMBER) @$AUTHOR'
+
+autolabeler:
+  - label: 'documentation'
+    files:
+      - '*.md'
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+      - '/bugfix\/.+/'
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+
+template: |
+  ## What’s Changed
+
+  $CHANGES
+
+  All contributors: $CONTRIBUTORS
