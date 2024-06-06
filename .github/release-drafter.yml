@@ -1,5 +1,4 @@
 # https://github.com/toolmantim/release-drafter
-# https://github.com/jenkinsci/.github/blob/master/.github/release-drafter.yml
 
 # 新项目，第一次 release 为 0.1.0, 可以在 github 上手动修改为 0.0.1
 name-template: 'v$NEXT_PATCH_VERSION'
