@@ -1,20 +1,12 @@
 # https://github.com/toolmantim/release-drafter
 # https://github.com/jenkinsci/.github/blob/master/.github/release-drafter.yml
 
+# 新项目，第一次 release 为 0.1.0, 可以在 github 上手动修改为 0.0.1
 name-template: 'v$NEXT_PATCH_VERSION'
 tag-template: 'v$NEXT_PATCH_VERSION'
 
 # Emoji reference: https://gitmoji.carloscuesta.me/
 categories:
-  - title: 💥 Breaking changes
-    labels:
-      - breaking
-  - title: 🚨 Removed
-    labels:
-      - removed
-  - title: ⚠️ Deprecated
-    labels:
-      - deprecated
   - title: 🚀 New features
     labels:
       - enhancement
@@ -25,26 +17,19 @@ categories:
       - fix
       - hotfix
       - bugfix
-  - title: 🌐 Localization and translation
-    labels:
-      - localization
   - title: 📝 Documentation updates
     labels:
       - documentation
-  - title: 👻 Maintenance
-    labels:
-      - chore
-      - internal
-      - maintenance
-  - title: 🚦 Tests
+      - localization
+  - title: 🚦Tests
     labels:
       - test
       - tests
-  - title: ✍ Other changes
-  # Default label used by Dependabot
-  - title: 📦 Dependency updates
+  - title: 🧰 Dependency updates
     labels:
       - dependencies
+      - dependabot
+      - DEPENDABOT
     collapse-after: 15
 
 exclude-labels:
