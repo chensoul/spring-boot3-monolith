@@ -48,7 +48,7 @@ message ">>> Hotfix: $NEXT_VERSION"
 BRANCH_NAME="hotfix/$NEXT_VERSION"
 read -r -p "Last tag version was '$LATEST_TAG', do you want to create '$BRANCH_NAME' branch ? [Y/n]:  " RESPONSE
 if [[ $RESPONSE =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  message ">>>>> Creating branch '$BRANCH_NAME' from main..."
+  echo "Creating branch '$BRANCH_NAME' from main..."
 
   git branch -D "$BRANCH_NAME"
   git checkout -b "$BRANCH_NAME" main
@@ -57,7 +57,7 @@ if [[ $RESPONSE =~ ^([yY][eE][sS]|[yY])$ ]]; then
   # create pr if current branch is develop
   # gh pr create --base main --head "$BRANCH_NAME" --title "Feature - $NEXT_VERSION" --fill
 else
-  message "Action cancelled exiting..."
+  echo "Action cancelled exiting..."
   exit 1
 fi
 
