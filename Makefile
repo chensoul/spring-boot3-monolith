@@ -58,6 +58,7 @@ kill: ## Kill and reset project
 	@docker compose down
 	@mvn install -DskipTests
 	$(MAKE) kill-database kill-redis kill-rabbitmq
+	@docker system prune -f --volumes
 
 feature: ## Create feature
 	./scripts/create_feature.sh
