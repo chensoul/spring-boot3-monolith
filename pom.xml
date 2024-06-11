@@ -84,7 +84,7 @@
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
         <mysql.version>8.0.30</mysql.version>
-        <flyway.version>10.14.0</flyway.version>
+        <flyway.version>10.15.0</flyway.version>
     </properties>
 
     <dependencies>
