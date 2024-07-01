@@ -81,7 +81,7 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <bucket4j-core.version>8.10.1</bucket4j-core.version>
         <antisamy.version>1.7.5</antisamy.version>
-        <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
+        <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
         <mysql.version>8.0.30</mysql.version>
         <flyway.version>10.15.2</flyway.version>
