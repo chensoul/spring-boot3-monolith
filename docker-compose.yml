@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: bitnami/mysql:8.4.0
+    image: bitnami/mysql
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=spring-boot3-monolith
@@ -31,6 +31,125 @@ services:
       test: [ "CMD", "redis-cli","--raw", "incr","ping" ]
       interval: 2s
       retries: 30
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgresql
+    environment:
+      - POSTGRES_DB=spring-boot3-monolith
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - /etc/localtime:/etc/localtime:ro
+
+  sonarqube:
+    image: sonarqube:10.6-community
+    ports:
+      - "9000:9000"
+    #        environment:
+    #            # CREATE USER sonar WITH PASSWORD 'sonar';
+    #            # CREATE DATABASE sonar owner sonar;
+    #            # GRANT ALL ON SCHEMA public TO sonar;
+    #            - SONAR_JDBC_URL=jdbc:postgresql://postgresql:5432/sonar
+    #            - SONAR_JDBC_USERNAME=sonar
+    #            - SONAR_JDBC_PASSWORD=sonar
+    volumes:
+      - sonar_data:/opt/sonarqube
+
+  artifactory-oss:
+    image: releases-docker.jfrog.io/jfrog/artifactory-jcr:7.84.15
+    environment:
+      - JF_SHARED_DATABASE_TYPE=postgresql
+      # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
+      - JF_SHARED_DATABASE_USERNAME=artifactory
+      - JF_SHARED_DATABASE_PASSWORD=password
+      - JF_SHARED_DATABASE_URL=jdbc:postgresql://postgresql:5432/artifactory
+      - JF_SHARED_DATABASE_DRIVER=org.postgresql.Driver
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - artifactory_data:/var/opt/jfrog/artifactory
+      - /etc/localtime:/etc/localtime:ro
+
+  nexus:
+    image: sonatype/nexus3
+    platform: linux/amd64
+    ports:
+      - "8081:8081"
+    volumes:
+      - nexus_data:/nexus-data
+      - /etc/localtime:/etc/localtime:ro
+
+  selenium:
+    # selenium 需要 chrome 浏览器和 chromeDriver 版本一致
+    image: selenium/standalone-chrome:4.22.0-20240621
+    platform: linux/amd64
+    ports:
+      - "4444:4444"
+
+  yapi:
+    image: jayfong/yapi:latest
+    platform: linux/amd64
+    environment:
+      - YAPI_ADMIN_ACCOUNT=admin@docker.yapi
+      - YAPI_ADMIN_PASSWORD=adm1n
+      - YAPI_CLOSE_REGISTER=true
+      - YAPI_DB_SERVERNAME=mongo
+      - YAPI_DB_PORT=27017
+      - YAPI_DB_DATABASE=yapi
+      - YAPI_MAIL_ENABLE=false
+      - YAPI_LDAP_LOGIN_ENABLE=false
+      - YAPI_PLUGINS=[]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  jenkins:
+    image: jenkins/jenkins:jdk21
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+
+  gitlab:
+    image: gitlab/gitlab-ce
+    platform: linux/amd64
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.example.com'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        gitlab_rails['time_zone'] = 'Asia/Shanghai'
+        gitlab_workhorse['listen_network'] = "tcp"
+        gitlab_workhorse['listen_addr'] = "0.0.0.0:8880"
+        nginx['enable'] = false
+    ports:
+      - '8880:8880'
+      - '2222:22'
+    volumes:
+      - gitlab_data:/var/opt/gitlab
+      - /etc/localtime:/etc/localtime:ro
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
 
   # https://elnatantorres.medium.com/configuring-rabbitmq-on-its-startup-with-docker-d219af4b751a
   rabbitmq:
@@ -109,5 +228,12 @@ services:
 
 volumes:
   rabbitmq_data:
+  gitlab_data:
   mysql_data:
+  postgres_data:
   redis_data:
+  sonar_data:
+  jenkins_data:
+  nexus_data:
+  mongo_data:
+  artifactory_data:

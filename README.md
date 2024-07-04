@@ -138,3 +138,5 @@ istioctl version --remote=false
 - https://github.com/xsreality/spring-modulith-with-ddd
 - https://www.makariev.com/blog/advanced-spring-boot-structure-clean-architecture-modulith/
 - https://github.com/chensoul/Microservices-with-Spring-Boot-and-Spring-Cloud-Third-Edition
+- https://github.com/in28minutes/spring-microservices-v3
+- [Say Goodbye to Repetition: Building a Common Library in Spring Boot](https://medium.com/@jovanoskivasko14/say-goodbye-to-repetition-building-a-common-library-in-spring-boot-44e709b6f67d)
