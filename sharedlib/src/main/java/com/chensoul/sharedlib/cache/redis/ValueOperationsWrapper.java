@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.chensoul.sharedlib.cache.redis.bean;
+package com.chensoul.sharedlib.cache.redis;
 
 import java.time.Duration;
 import java.util.Collection;

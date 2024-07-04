@@ -186,6 +186,12 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.2.1-jre</version>
+        </dependency>
+
         <!-- Development tools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,4 +1,4 @@
-package com.chensoul.sharedlib.cache.redis.bean;
+package com.chensoul.sharedlib.cache.redis;
 
 import com.chensoul.sharedlib.tenant.TenantContextHolder;
 import java.time.Duration;

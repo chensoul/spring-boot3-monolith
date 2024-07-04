@@ -1,4 +1,4 @@
-package com.chensoul.sharedlib.cache.redis;
+package com.chensoul.sharedlib.cache;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;

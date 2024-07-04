@@ -1,4 +1,4 @@
-package com.chensoul.sharedlib.cache.redis.bean;
+package com.chensoul.sharedlib.cache.redis;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;

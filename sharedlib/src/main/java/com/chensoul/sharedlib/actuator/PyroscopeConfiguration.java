@@ -1,4 +1,4 @@
-package com.chensoul.sharedlib.profiling;
+package com.chensoul.sharedlib.actuator;
 
 import io.pyroscope.http.Format;
 import io.pyroscope.javaagent.EventType;
