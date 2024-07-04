@@ -1,0 +1,139 @@
+server.port: 8080
+server.error.include-message: always
+
+server.shutdown: graceful
+spring.lifecycle.timeout-per-shutdown-phase: 20s
+
+spring:
+  application:
+    name: spring-boot3-monolith
+  main:
+    keep-alive: true # ensures JVM is kept alive, even if all threads are virtual threads https://docs.spring.io/spring-boot/docs/3.2.0/reference/htmlsingle/#features.spring-application.virtual-threads
+  threads:
+    virtual:
+      enabled: true
+  web:
+    resources:
+      add-mappings: false # disable static content.
+  mvc:
+    log-resolved-exception: false # remove tomcat log exception since it is already treated in GlobalExceptionHandler
+  reactor:
+    context-propagation: auto # automatically propagates trace and span in reactive pipelines.
+  data:
+    web:
+      pageable:
+        max-page-size: 100 # default 2000
+
+spring.flyway:
+  locations: classpath:flyway/mysql
+
+spring.datasource:
+  hikari.:
+    maximum-pool-size: 20
+  url: jdbc:mysql://localhost:3306/spring-boot3-monolith
+  username: user
+  password: password
+
+  jpa:
+    open-in-view: false # disables lazy loading in web views, important for performance.
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        generate_statistics: false
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          # important: When using GenerationType.IDENTITY Hibernate disable batching, you need to use BatchSequenceGenerator
+          batch_size: 10
+          time_zone: Asia/Shanghai
+
+spring.data.redis:
+  host: localhost
+  port: 6379
+  password:
+  timeout: 2000
+  lettuce:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: user
+  password: password
+  listeners:
+    event:
+      queue: webhook
+      prefetch-count: 10
+  publishers:
+    webhook:
+      exchange: outbound
+      routingkey: to_outbound_webhook
+
+management:
+  info:
+    java.enabled: true
+    process.enabled: true
+    os.enabled: true
+    env.enabled: true
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+        add-additional-paths: true
+    #      group:
+    #       readiness:
+    #         include: rabbit
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, sbom, flyway, preStopHook, prometheus
+  # for testing purpose you can use https://github.com/CtrlSpice/otel-desktop-viewer
+
+
+miscellaneous:
+  max-response-time-to-log-in-ms: 1000
+
+http:
+  clients:
+    default-timeout: 5000
+    webhook-site:
+      base-url: "https://webhook.site/c493d955-2a01-4fbd-bf44-57e85860fbf6"
+
+rate-limit:
+  default:
+    name: DEFAULT
+    max-requests: 50
+    refill-in-seconds: 1
+
+profiling:
+  pyroscope:
+    enabled: true
+    url: http://localhost:4040
+
+logging:
+  #  pattern.correlation: "[${spring.application.name:},%X{trace_id:-},%X{span_id:-},%X{trace_flags:-}]"
+  level:
+    web: info
+    # org.springframework.cache: TRACE
+    # hibernate.SQL: DEBUG
+    # hibernate.engine.jdbc.batch.internal.BatchingBatch: DEBUG
+    # reactor.netty.http.client.HttpClient: DEBUG
+
+
+
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
+
+spring.datasource.url: jdbc:mysql://mysql:3306/spring-boot3-monolith
+spring.data.redis.host: redis
+rabbitmq.host: rabbitmq
+profiling.pyroscope.url: http://pyroscope:4040
