@@ -88,7 +88,7 @@
         <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
         <mysql.version>8.0.30</mysql.version>
-        <flyway.version>10.14.0</flyway.version>
+        <flyway.version>10.15.2</flyway.version>
 
         <!--export DOCKER_IMAGE_REPO=127418365645.dkr.ecr.us-east-1.amazonaws.com -->
         <!--image.repo.name>${env.DOCKER_IMAGE_REPO}</image.repo.name-->
