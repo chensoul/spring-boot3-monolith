@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-public class CommonLibraryBeanFactory {
+public class CommonBeanFactory {
 	@Bean
 	public Clock clock() {
 		return Clock.systemUTC();

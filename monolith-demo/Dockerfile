@@ -12,6 +12,4 @@ COPY --from=builder extracted/application/ ./
 
 EXPOSE 8080
 
-# spring boot 2 -> org.springframework.boot.loader.JarLauncher
-# spring boot 3 -> org.springframework.boot.loader.launch.JarLauncher
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]

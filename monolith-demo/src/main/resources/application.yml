@@ -6,7 +6,7 @@ spring.lifecycle.timeout-per-shutdown-phase: 20s
 
 spring:
   application:
-    name: spring-boot3-monolith
+    name: monolith-demo
   main:
     keep-alive: true # ensures JVM is kept alive, even if all threads are virtual threads https://docs.spring.io/spring-boot/docs/3.2.0/reference/htmlsingle/#features.spring-application.virtual-threads
   threads:
@@ -30,9 +30,9 @@ spring.flyway:
 spring.datasource:
   hikari.:
     maximum-pool-size: 20
-  url: jdbc:mysql://localhost:3306/spring-boot3-monolith
-  username: user
-  password: password
+  url: jdbc:mysql://localhost:3306/user_db
+  username: root
+  password: root
 
   jpa:
     open-in-view: false # disables lazy loading in web views, important for performance.
@@ -60,20 +60,6 @@ spring.data.redis:
       max-wait: -1
       max-idle: 8
       min-idle: 0
-
-rabbitmq:
-  host: localhost
-  port: 5672
-  username: user
-  password: password
-  listeners:
-    event:
-      queue: webhook
-      prefetch-count: 10
-  publishers:
-    webhook:
-      exchange: outbound
-      routingkey: to_outbound_webhook
 
 management:
   info:
@@ -114,7 +100,7 @@ rate-limit:
 
 profiling:
   pyroscope:
-    enabled: true
+    enabled: false
     url: http://localhost:4040
 
 logging:
@@ -126,14 +112,12 @@ logging:
     # hibernate.engine.jdbc.batch.internal.BatchingBatch: DEBUG
     # reactor.netty.http.client.HttpClient: DEBUG
 
-
-
 ---
 spring.config.activate.on-profile: docker
-
-server.port: 8080
-
-spring.datasource.url: jdbc:mysql://mysql:3306/spring-boot3-monolith
+spring.datasource.url: jdbc:mysql://mysql:3306/user_db
 spring.data.redis.host: redis
-rabbitmq.host: rabbitmq
-profiling.pyroscope.url: http://pyroscope:4040
+
+---
+spring.config.activate.on-profile: k8s
+spring.datasource.url: jdbc:mysql://mysql-service:3306/user_db
+spring.data.redis.host: redis-service

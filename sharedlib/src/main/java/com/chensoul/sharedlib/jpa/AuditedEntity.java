@@ -29,7 +29,7 @@ public abstract class AuditedEntity extends BaseEntity {
 	protected String createdBy;
 
 	@LastModifiedBy
-	@Column(name = "modified_by")
+	@Column(name = "updated_by")
 	protected String updatedBy;
 
 	@CreatedDate

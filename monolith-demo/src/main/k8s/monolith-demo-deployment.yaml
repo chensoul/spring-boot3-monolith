@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monolith-demo-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: monolith-demo
+  template:
+    metadata:
+      labels:
+        app: monolith-demo
+    spec:
+      containers:
+        - name: monolith-demo
+          image: chensoul/monolith-demo:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: MYSQL_HOST
+              value: mysql-service
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 180
+            successThreshold: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            successThreshold: 1

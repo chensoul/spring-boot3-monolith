@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
 
 @AutoConfiguration
 @Import({
-	CommonLibraryBeanFactory.class,
+	CommonBeanFactory.class,
 	AsyncConfiguration.class,
 	SchedulingConfiguration.class,
 	SpringContextHolder.class,

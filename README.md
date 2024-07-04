@@ -132,6 +132,59 @@ minikube version | grep "minikube" && \
 istioctl version --remote=false
 ```
 
+### 本地运行
+
+```bash
+docker-compose -f docker-compose.yml -p mysql up -d
+docker-compose -f docker-compose.yml -p redis up -d
+
+mvn clean -DskipTests spring-boot:run -pl monolith-demo
+```
+
+### Docker 中运行
+
+```bash
+docker-compose -f docker-compose.yml -p mysql up -d
+docker-compose -f docker-compose.yml -p redis up -d
+
+mvn clean pakcage -DskipTests
+docker-compose -f docker-compose.yml -p monolith-demo-docker up -d
+```
+
+### K8s 中运行
+
+参考 [从本地主机到云：使用 Docker Desktop 在 Kubernetes 上部署 Spring Boot + MySQL 应用程](https://levelup.gitconnected.com/from-localhost-to-the-cloud-deploying-spring-boot-mysql-app-on-kubernetes-with-docker-desktop-a-8c51f9cd23fa)
+
+```bash
+mvn clean pakcage -DskipTests
+
+docker build -t monolith-demo ./monolith-demo
+docker tag monolith-demo:latest chensoul/monolith-demo:latest
+docker login
+docker push chensoul/monolith-demo:latest
+
+
+minikube start 
+minikube addons enable ingress
+
+cd monolith-demo/src/k8s
+kubectl apply -f mysql-deployment.yaml
+kubectl apply -f mysql-service.yaml
+kubectl apply -f redis-deployment.yaml
+kubectl apply -f redis-service.yaml
+kubectl apply -f monolith-demo-deployment.yaml
+kubectl apply -f monolith-demo-service.yaml
+
+kubectl get pods
+kubectl get deployments
+kubectl get services
+
+
+minikube service monolith-demo-service --url
+#http://127.0.0.1:57936
+
+```
+
 ## 参考
 
 - https://github.com/Jojoooo1/spring-boot-api
@@ -139,4 +192,4 @@ istioctl version --remote=false
 - https://www.makariev.com/blog/advanced-spring-boot-structure-clean-architecture-modulith/
 - https://github.com/chensoul/Microservices-with-Spring-Boot-and-Spring-Cloud-Third-Edition
 - https://github.com/in28minutes/spring-microservices-v3
-- [Say Goodbye to Repetition: Building a Common Library in Spring Boot](https://medium.com/@jovanoskivasko14/say-goodbye-to-repetition-building-a-common-library-in-spring-boot-44e709b6f67d)
+- [告别重复：在 Spring Boot 中构建通用库](https://medium.com/@jovanoskivasko14/say-goodbye-to-repetition-building-a-common-library-in-spring-boot-44e709b6f67d)

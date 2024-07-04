@@ -99,7 +99,7 @@
 
     <modules>
         <module>sharedlib</module>
-        <module>service</module>
+        <module>monolith-demo</module>
     </modules>
 
     <dependencyManagement>
@@ -184,45 +184,6 @@
                             <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                         </statelessTestsetReporter>
                     </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <configuration>
-                        <image>
-                            <env>
-                                <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
-                            </env>
-                            <createdDate>${maven.build.timestamp}</createdDate>
-                            <bindings>
-                                <binding>
-                                    ${project.basedir}/opentelemetry:/workspace/opentelemetry
-                                </binding>
-                            </bindings>
-                        </image>
-                        <excludes>
-                            <exclude>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                            </exclude>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>repackage</goal>
-                                <goal>build-info</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Add SBOM specification for application security contexts and supply chain component analysis. -->
-                <plugin>
-                    <groupId>org.cyclonedx</groupId>
-                    <artifactId>cyclonedx-maven-plugin</artifactId>
                 </plugin>
 
                 <plugin>

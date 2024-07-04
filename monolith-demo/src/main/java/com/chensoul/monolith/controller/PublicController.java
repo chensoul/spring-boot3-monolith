@@ -33,7 +33,7 @@ public class PublicController {
 	 *
 	 * @return {@link String }
 	 */
-	@GetMapping("/hello-world")
+	@GetMapping("/hello")
 	@ResponseStatus(HttpStatus.OK)
 	public String helloWorld() {
 		return "Hello world";
