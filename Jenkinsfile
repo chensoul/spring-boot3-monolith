@@ -1,30 +1,26 @@
 node {
     def mvnHome
     stage('Pull source code') {
-       git 'https://github.com/alexwang66/notebook-k8s.git'
-
+       git 'https://chensoul.github.io/spring-boot3-monolith'
        mvnHome = tool 'maven'
     }
-    dir('notebook-service') {
+    dir('monolith-demo') {
          stage('Code scanning'){
-                    sh '''
-                    '''
-                }
+             sh '''
+             '''
+         }
 
         stage('Maven build and Unit Test'){
             sh '''
-            mvn package
-            curl  -H \"X-JFrog-Art-Api: AKCp5ekw5hzGB6gTaU6YUWU5TCiEWS1dfNvJLmVQxYrFGqxVDAZ6kWnhy36sxwG3iTqPDfQ7T\" \
-                   -X PUT \
-                   -T target/notebook-service-0.0.1-SNAPSHOT.jar \
-                   'http://localhost:8082/artifactory/generic-dev-local/notebook-k8s/notebook-service/notebook-service-0.0.1-SNAPSHOT.jar;Test.UnitTestPassed=true;Test.CodeScanningPassed=true'
+            mvn clean package
             '''
         }
 
        stage('Docker build'){
             sh '''
-            docker build -t art.local:8081/docker-testing-local/notebook-k8s/notebook-service:\$BUILD_NUMBER .
-            docker push art.local:8081/docker-testing-local/notebook-k8s/notebook-service:\$BUILD_NUMBER
+            docker build -t monolith-demo .
+            docker tag monolith-demo:latest chensoul/monolith-demo:latest
+            docker push chensoul/monolith-demo:latest
             '''
         }
 
@@ -34,16 +30,12 @@ node {
         }
 
         stage('Integration Test'){
-                        sh '''
-                        '''
-                    }
+            sh '''
+            '''
+        }
 
         stage('Promote Jar to Testing Repo'){
             sh '''
-            curl  -H \"X-JFrog-Art-Api: AKCp5ekw5hzGB6gTaU6YUWU5TCiEWS1dfNvJLmVQxYrFGqxVDAZ6kWnhy36sxwG3iTqPDfQ7T\" \
-                               -X PUT \
-                               -T target/notebook-service-0.0.1-SNAPSHOT.jar \
-                               'http://localhost:8082/artifactory/generic-testing-local/notebook-k8s/notebook-service/notebook-service-0.0.1-SNAPSHOT.jar;Test.UnitTestPassed=true;Test.CodeScanningPassed=true;Test.IntegrationTestPassed=true'
             '''
         }
 
@@ -54,16 +46,7 @@ node {
 
         stage('Promote jar and image to release repo'){
             sh '''
-                curl  -H \"X-JFrog-Art-Api: AKCp5ekw5hzGB6gTaU6YUWU5TCiEWS1dfNvJLmVQxYrFGqxVDAZ6kWnhy36sxwG3iTqPDfQ7T\" \
-                               -X PUT \
-                               -T target/notebook-service-0.0.1-SNAPSHOT.jar \
-                               'http://localhost:8082/artifactory/generic-release-local/notebook-k8s/notebook-service/notebook-service-0.0.1-SNAPSHOT.jar;Test.UnitTestPassed=true;Test.CodeScanningPassed=true;Test.IntegrationTestPassed=true;Released=true'
-                docker tag art.local:8081/docker-testing-local/notebook-k8s/notebook-service:\$BUILD_NUMBER art.local:8081/docker-release-local/notebook-k8s/notebook-service:\$BUILD_NUMBER
-                docker push art.local:8081/docker-release-local/notebook-k8s/notebook-service:\$BUILD_NUMBER
             '''
-            def commandText = "curl  -H \"X-JFrog-Art-Api: AKCp5ekw5hzGB6gTaU6YUWU5TCiEWS1dfNvJLmVQxYrFGqxVDAZ6kWnhy36sxwG3iTqPDfQ7T\" -X PUT \"http://art.local:8082/artifactory/api/storage/docker-release-local/notebook-k8s/notebook-service/${env.BUILD_NUMBER}?properties=Test.UnitTestPassed=true;Test.CodeScanningPassed=true;Test.IntegrationTestPassed=true;Released=true\" ";
-            sh commandText
         }
     }
-
  }
