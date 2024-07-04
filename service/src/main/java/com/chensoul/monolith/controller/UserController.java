@@ -1,12 +1,12 @@
 package com.chensoul.monolith.controller;
 
+import static com.chensoul.monolith.Constants.API;
 import com.chensoul.monolith.domain.User;
 import com.chensoul.monolith.service.CreateUserRequest;
 import com.chensoul.monolith.service.UpdateUserRequest;
 import com.chensoul.monolith.service.UserMapper;
 import com.chensoul.monolith.service.UserResponse;
 import com.chensoul.monolith.service.UserService;
-import static com.chensoul.sharedlib.Constants.API;
 import com.chensoul.sharedlib.jpa.BaseController;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

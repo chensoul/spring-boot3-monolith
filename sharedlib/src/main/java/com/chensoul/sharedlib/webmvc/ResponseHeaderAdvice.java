@@ -1,6 +1,6 @@
 package com.chensoul.sharedlib.webmvc;
 
-import static com.chensoul.sharedlib.Constants.RESPONSE_TIME_HEADER;
+import static com.chensoul.sharedlib.util.StringPool.RESPONSE_TIME_HEADER;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

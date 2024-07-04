@@ -1,7 +1,7 @@
 package com.chensoul.monolith.controller;
 
+import static com.chensoul.monolith.Constants.PUBLIC;
 import com.chensoul.monolith.service.WebhookSiteService;
-import static com.chensoul.sharedlib.Constants.PUBLIC;
 import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

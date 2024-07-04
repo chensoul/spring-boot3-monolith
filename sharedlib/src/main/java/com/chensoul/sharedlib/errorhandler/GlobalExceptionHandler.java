@@ -1,8 +1,7 @@
 package com.chensoul.sharedlib.errorhandler;
 
 import com.chensoul.sharedlib.exception.BusinessException;
-import com.chensoul.sharedlib.exception.RestResponse;
-import com.chensoul.sharedlib.exception.ResultCode;
+import com.chensoul.sharedlib.util.RestResponse;
 import jakarta.persistence.PersistenceException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;

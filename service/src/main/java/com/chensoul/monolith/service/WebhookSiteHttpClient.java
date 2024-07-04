@@ -1,6 +1,6 @@
 package com.chensoul.monolith.service;
 
-import com.chensoul.sharedlib.webclient.WebClientUtils;
+import com.chensoul.sharedlib.util.WebClientUtils;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.SlidingWindowType;

@@ -1,6 +1,6 @@
 package com.chensoul.sharedlib;
 
-import com.chensoul.sharedlib.jackson.JacksonUtil;
+import com.chensoul.sharedlib.util.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import java.time.Clock;
@@ -19,7 +19,7 @@ public class CommonLibraryBeanFactory {
 	@Bean
 	@ConditionalOnMissingBean
 	public ObjectMapper objectMapper() {
-		return JacksonUtil.getObjectMapperWithJavaTimeModule();
+		return JsonUtils.getObjectMapperWithJavaTimeModule();
 	}
 
 	@PostConstruct
