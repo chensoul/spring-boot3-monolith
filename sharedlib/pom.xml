@@ -13,17 +13,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <optional>true</optional>
+            <!--            <optional>true</optional>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-            <optional>true</optional>
+            <!--            <optional>true</optional>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
-            <optional>true</optional>
+            <!--            <optional>true</optional>-->
         </dependency>
 
         <!-- Database -->
@@ -192,6 +192,13 @@
             <version>33.2.1-jre</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.757</version>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Development tools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -215,13 +222,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <!-- exclude junit 4 -->
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>

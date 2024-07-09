@@ -3,6 +3,7 @@ package com.chensoul.sharedlib;
 import com.chensoul.sharedlib.actuator.PyroscopeConfiguration;
 import com.chensoul.sharedlib.errorhandler.ErrorConfiguration;
 import com.chensoul.sharedlib.jpa.AuditingConfiguration;
+import com.chensoul.sharedlib.oss.OssAutoConfiguration;
 import com.chensoul.sharedlib.springdoc.SpringdocConfig;
 import com.chensoul.sharedlib.validation.ValidatorConfiguration;
 import com.chensoul.sharedlib.webmvc.AsyncConfiguration;
@@ -25,7 +26,8 @@ import org.springframework.context.annotation.Import;
 	SpringdocConfig.class,
 	AuditingConfiguration.class,
 	PyroscopeConfiguration.class,
-	ErrorConfiguration.class
+	ErrorConfiguration.class,
+	OssAutoConfiguration.class
 })
 public class SharedLibConfiguration {
 }

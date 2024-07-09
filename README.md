@@ -10,8 +10,8 @@
 | 数据库         | MySQL             | 8.4.0  |                                                                                                                                                                                                                                   |    |
 | 缓存          | Redis             | 7.2    |                                                                                                                                                                                                                                   |    |
 | 消息队列        | Rabbitmq          | 3.13.0 |                                                                                                                                                                                                                                   |    |
-| 开发框架        | Spring Boot       | 3.3.0  | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=3&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/org/springframework/boot/spring-boot-dependencies/maven-metadata.xml"> |    |
-| 在线文档        | SpringDoc OpenApi | 2.5.0  | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&metadataUrl=https://oss.sonatype.org/content/repositories/releases/org/springdoc/springdoc-openapi/maven-metadata.xml">                                       |    |
+| 开发框架        | Spring Boot       | 3.3.1  | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=3&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/org/springframework/boot/spring-boot-dependencies/maven-metadata.xml"> |    |
+| 在线文档        | SpringDoc OpenApi | 2.6.0  | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&metadataUrl=https://oss.sonatype.org/content/repositories/releases/org/springdoc/springdoc-openapi/maven-metadata.xml">                                       |    |
 | 限流          | Bucket4j          | 8.10.1 | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&metadataUrl=https://oss.sonatype.org/content/repositories/releases/com/bucket4j/bucket4j-core/maven-metadata.xml">    <br/>                                   |    |
 | Profiling工具 | pyroscope         | 0.14.0 | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&metadataUrl=https://oss.sonatype.org/content/repositories/releases/io/pyroscope/agent/maven-metadata.xml">                                                    
 
@@ -187,9 +187,10 @@ minikube service monolith-demo-service --url
 
 ## 参考
 
-- https://github.com/Jojoooo1/spring-boot-api
 - https://github.com/xsreality/spring-modulith-with-ddd
-- https://www.makariev.com/blog/advanced-spring-boot-structure-clean-architecture-modulith/
+- [Spring Boot 高级实践：使用 Docker、Zipkin 和 100% 代码覆盖率构建模块化应用程序](https://www.makariev.com/blog/advanced-spring-boot-structure-clean-architecture-modulith/)
 - https://github.com/chensoul/Microservices-with-Spring-Boot-and-Spring-Cloud-Third-Edition
 - https://github.com/in28minutes/spring-microservices-v3
 - [告别重复：在 Spring Boot 中构建通用库](https://medium.com/@jovanoskivasko14/say-goodbye-to-repetition-building-a-common-library-in-spring-boot-44e709b6f67d)
+- [Integration Testing With Keycloak, Spring Security, Spring Boot, and Spock Framework](https://dzone.com/articles/integration-testing-with-keycloak-spring-security)
+- [Spring Boot 3.2 综合指南，包含 Java 21、虚拟线程、Spring Security、PostgreSQL、Flyway、缓存、Micrometer、Opentelemetry、JUnit 5、RabbitMQ、Keycloak 集成等！(10/17)](https://itnext.io/exploring-a-base-spring-boot-application-with-java-21-virtual-thread-spring-security-flyway-c0fde13c1eca)

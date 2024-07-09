@@ -12,8 +12,31 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
 
+  # https://elnatantorres.medium.com/configuring-rabbitmq-on-its-startup-with-docker-d219af4b751a
+  rabbitmq:
+    image: bitnami/rabbitmq:3.13.3
+    environment:
+      RABBITMQ_LOAD_DEFINITIONS: "true"
+      # definition is set with -> user: password
+      RABBITMQ_DEFINITIONS_FILE: /etc/rabbitmq/definitions.json
+      RABBITMQ_PLUGINS: rabbitmq_shovel rabbitmq_shovel_management rabbitmq_delayed_message_exchange
+      RABBITMQ_COMMUNITY_PLUGINS: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./scripts/configs/rabbitmq-definition.json:/etc/rabbitmq/definitions.json
+      - ./scripts/configs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - rabbitmq_data:/bitnami/rabbitmq/mnesia
+
   sonarqube:
     image: sonarqube:10.6-community
+    container_name: sonarqube
     ports:
       - "9000:9000"
     #        environment:
@@ -28,6 +51,7 @@ services:
 
   artifactory-oss:
     image: releases-docker.jfrog.io/jfrog/artifactory-jcr:7.84.15
+    container_name: artifactory-oss
     environment:
       - JF_SHARED_DATABASE_TYPE=postgresql
       # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
@@ -44,6 +68,7 @@ services:
 
   nexus:
     image: sonatype/nexus3
+    container_name: nexus
     platform: linux/amd64
     ports:
       - "8081:8081"
@@ -60,6 +85,7 @@ services:
 
   yapi:
     image: jayfong/yapi:latest
+    container_name: yapi
     platform: linux/amd64
     environment:
       - YAPI_ADMIN_ACCOUNT=admin@docker.yapi
@@ -85,6 +111,7 @@ services:
 
   jenkins:
     image: jenkins/jenkins:jdk21
+    container_name: jenkins
     privileged: true
     user: root
     ports:
@@ -98,19 +125,34 @@ services:
   gitlab:
     image: gitlab/gitlab-ce
     platform: linux/amd64
+    container_name: gitlab
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab.example.com'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+
         gitlab_rails['time_zone'] = 'Asia/Shanghai'
+        gitlab_rails['gitlab_default_theme'] = 2
+        gitlab_rails['gitlab_shell_ssh_port'] = 24
+        gitlab_rails['backup_keep_time'] = 172800
+
         gitlab_workhorse['listen_network'] = "tcp"
-        gitlab_workhorse['listen_addr'] = "0.0.0.0:8880"
+        gitlab_workhorse['listen_addr'] = "0.0.0.0:8000"
+
         nginx['enable'] = false
+        unicorn['enable'] = false
     ports:
-      - '8880:8880'
-      - '2222:22'
+      - '8000:8000'
+      - '24:22'
     volumes:
       - gitlab_data:/var/opt/gitlab
+      - /etc/localtime:/etc/localtime:ro
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    container_name: gitlab-runner
+    volumes:
+      - gitlab_runner_data:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
 
   zipkin:
@@ -118,39 +160,18 @@ services:
     ports:
       - "9411:9411"
 
-  # https://elnatantorres.medium.com/configuring-rabbitmq-on-its-startup-with-docker-d219af4b751a
-  rabbitmq:
-    image: bitnami/rabbitmq:3.13.3
-    environment:
-      RABBITMQ_LOAD_DEFINITIONS: "true"
-      # definition is set with -> user: password
-      RABBITMQ_DEFINITIONS_FILE: /etc/rabbitmq/definitions.json
-      RABBITMQ_PLUGINS: rabbitmq_shovel rabbitmq_shovel_management rabbitmq_delayed_message_exchange
-      RABBITMQ_COMMUNITY_PLUGINS: https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.12.0/rabbitmq_delayed_message_exchange-3.12.0.ez
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    volumes:
-      - ./scripts/configs/rabbitmq-definition.json:/etc/rabbitmq/definitions.json
-      - ./scripts/configs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-      - rabbitmq_data:/bitnami/rabbitmq/mnesia
-
   pyroscope:
     image: grafana/pyroscope
     ports:
       - "4040:4040"
 
 volumes:
-  rabbitmq_data:
-  gitlab_data:
   postgres_data:
   sonar_data:
+  artifactory_data:
+  gitlab_data:
+  gitlab_runner_data:
   jenkins_data:
   nexus_data:
   mongo_data:
-  artifactory_data:
+  rabbitmq_data:
