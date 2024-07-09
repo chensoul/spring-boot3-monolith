@@ -137,7 +137,7 @@
         <dependency>
             <groupId>net.javacrumbs.shedlock</groupId>
             <artifactId>shedlock-provider-jdbc-template</artifactId>
-            <version>5.10.0</version>
+            <version>5.13.0</version>
         </dependency>
 
         <!-- resilience4j -->
