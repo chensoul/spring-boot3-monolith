@@ -25,14 +25,14 @@ spring:
         max-page-size: 100 # default 2000
 
 spring.flyway:
-  locations: classpath:flyway/mysql
+  locations: classpath:flyway/postgres
 
 spring.datasource:
   hikari.:
     maximum-pool-size: 20
-  url: jdbc:mysql://localhost:3306/user_db
-  username: root
-  password: root
+  url: jdbc:postgresql://localhost:5432/monolith-demo
+  username: postgres
+  password: postgres
 
   jpa:
     open-in-view: false # disables lazy loading in web views, important for performance.
@@ -43,7 +43,7 @@ spring.datasource:
         show_sql: true
         format_sql: true
         generate_statistics: false
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc:
           # important: When using GenerationType.IDENTITY Hibernate disable batching, you need to use BatchSequenceGenerator
           batch_size: 10
@@ -114,10 +114,10 @@ logging:
 
 ---
 spring.config.activate.on-profile: docker
-spring.datasource.url: jdbc:mysql://mysql:3306/user_db
+spring.datasource.url: jdbc:postgresql://postgres:5432/monolith-demo
 spring.data.redis.host: redis
 
 ---
 spring.config.activate.on-profile: k8s
-spring.datasource.url: jdbc:mysql://mysql-service:3306/user_db
+spring.datasource.url: jdbc:postgresql://postgres-service:5432/monolith-demo
 spring.data.redis.host: redis-service

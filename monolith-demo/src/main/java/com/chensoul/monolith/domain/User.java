@@ -24,7 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @Table(name = TABLE_NAME)
 public class User extends AuditedEntity {
-	public static final String TABLE_NAME = "user";
+	public static final String TABLE_NAME = "users";
 	private static final long serialVersionUID = -3552577854495026179L;
 
 	@Id

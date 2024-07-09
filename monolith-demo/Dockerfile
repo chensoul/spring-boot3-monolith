@@ -1,14 +1,36 @@
-FROM openjdk:21-ea-21-oraclelinux8 AS builder
-WORKDIR extracted
-COPY target/*.jar app.jar
-RUN java -Djarmode=layertools -jar app.jar extract && rm app.jar
+# syntax=docker/dockerfile:1
 
-FROM openjdk:21-ea-21-oraclelinux8
-WORKDIR app
-COPY --from=builder extracted/dependencies/ ./
-COPY --from=builder extracted/spring-boot-loader/ ./
-COPY --from=builder extracted/snapshot-dependencies/ ./
-COPY --from=builder extracted/application/ ./
+################################################################################
+# Create a stage for extracting the application into separate layers.
+# Take advantage of Spring Boot's layer tools and Docker's caching by extracting
+# the packaged application into separate layers that can be copied into the final stage.
+# See Spring's docs for reference:
+# https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html
+FROM eclipse-temurin:21-jre-jammy as extract
+WORKDIR /build
+ADD target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+################################################################################
+FROM eclipse-temurin:21-jre-jammy as final
+WORKDIR /app
+
+# Create a non-privileged user that the app will run under.
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
+ARG UID=10001
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    appuser
+
+COPY --from=extract build/dependencies/ ./
+COPY --from=extract build/spring-boot-loader/ ./
+COPY --from=extract build/snapshot-dependencies/ ./
+COPY --from=extract build/application/ ./
 
 EXPOSE 8080
 

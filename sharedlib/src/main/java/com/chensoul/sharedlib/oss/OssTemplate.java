@@ -141,7 +141,7 @@ public class OssTemplate implements InitializingBean {
 	 * @throws Exception
 	 */
 	public void putObject(String bucketName, String objectName, InputStream stream) throws Exception {
-		putObject(bucketName, objectName, stream, (long) stream.available(), "application/octet-stream");
+		putObject(bucketName, objectName, stream, stream.available(), "application/octet-stream");
 	}
 
 	/**

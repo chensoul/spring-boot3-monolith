@@ -1,7 +1,7 @@
 package com.chensoul.sharedlib.util.reflect;
 
 
-import com.google.gson.internal.Primitives;
+import com.nimbusds.jose.shaded.gson.internal.Primitives;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.lang.reflect.Array;

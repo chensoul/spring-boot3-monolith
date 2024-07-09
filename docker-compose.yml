@@ -1,18 +1,32 @@
 services:
-  mysql:
-    image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=user_db
+  monolith-demo:
+    build:
+      context: ./monolith-demo
     ports:
-      - "3306:3306"
-    healthcheck:
-      test: "/usr/bin/mysql --user=root --password=root -e 'SHOW DATABASES;'"
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - "8080:8080"
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  postgres:
+    image: postgres
+    restart: always
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=monolith-demo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7
@@ -29,47 +43,6 @@ services:
       timeout: 5s
       retries: 10
 
-  # 1. 从源码通过 spring-boot 运行程序
-  monolith-demo-mvn:
-    image: maven:3.9.8-eclipse-temurin-21
-    working_dir: /usr/src/workdir
-    command: "mvn clean -DskipTests spring-boot:run -pl monolith-demo"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    volumes:
-      - .:/usr/src/workdir
-      - ~/.m2:/root/.m2
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: [ 'CMD-SHELL','curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1' ]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
-  # 2. mvn spring-boot:build-image
-  # docker run -p 8080:8080 --platform linux/amd64 --network host monolith-demo:0.0.1-SNAPSHOT
-
-  # 3. 使用 docker 构建镜像，需要先执行 maven package -DskipTests
-  monolith-demo-docker:
-    build: ./monolith-demo
-    image: chensoul/monolith-demo
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: [ 'CMD-SHELL','curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1' ]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
 volumes:
-  mysql_data:
+  postgres_data:
   redis_data:

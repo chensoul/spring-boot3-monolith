@@ -21,8 +21,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: k8s
-            - name: MYSQL_HOST
-              value: mysql-service
+            - name: POSTGRES_HOST
+              value: postgres-service
           livenessProbe:
             failureThreshold: 3
             httpGet:

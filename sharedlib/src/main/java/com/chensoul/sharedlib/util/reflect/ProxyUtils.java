@@ -1,11 +1,11 @@
 package com.chensoul.sharedlib.util.reflect;
 
 import static com.chensoul.sharedlib.util.lang.function.Predicates.and;
+import static com.chensoul.sharedlib.util.reflect.ClassUtils.isPrimitive;
 import static com.chensoul.sharedlib.util.reflect.MemberUtils.FINAL_METHOD_PREDICATE;
 import static com.chensoul.sharedlib.util.reflect.MemberUtils.NON_PRIVATE_METHOD_PREDICATE;
 import static com.chensoul.sharedlib.util.reflect.MemberUtils.NON_STATIC_METHOD_PREDICATE;
 import static com.chensoul.sharedlib.util.reflect.MethodUtils.OBJECT_METHOD_PREDICATE;
-import static com.google.gson.internal.Primitives.isPrimitive;
 import java.lang.reflect.Method;
 import static java.lang.reflect.Modifier.isFinal;
 import java.util.List;

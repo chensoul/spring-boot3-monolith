@@ -13,7 +13,7 @@ public class MonolithDemoApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(MonolithDemoApplication.class, args);
 
-		String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
-		log.info("Connected to MySQL: " + mysqlUri);
+		String databaseUri = ctx.getEnvironment().getProperty("spring.datasource.url");
+		log.info("Connected to database: " + databaseUri);
 	}
 }

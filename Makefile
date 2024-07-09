@@ -13,7 +13,7 @@ run-app: ## Run app with maven
 	@mvn clean spring-boot:run
 
 start-app-with-docker-image: ## Run app with docker (don't forget to build the image locally before)
-	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/spring-boot3-monolith" ${APP_NAME}:0.0.1-SNAPSHOT
+	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:postgres://localhost:5432/monolith-demo" ${APP_NAME}:0.0.1-SNAPSHOT
 
 start-app: ## Run app with docker compose
 	@docker compose up -d
@@ -34,11 +34,11 @@ restart-all: ## Restart containers with docker compose
 	@docker compose logs -f ${APP_NAME}
 
 start-database: ## Run app database
-	@docker compose up -d mysql --wait
+	@docker compose up -d postgres --wait
 
 kill-database: ## Kill app database
-	@docker compose rm -sf mysql
-	@docker volume rm -f mysql_data
+	@docker compose rm -sf postgres
+	@docker volume rm -f postgres_data
 
 start-redis : ## Run redis
 	@docker compose up -d redis

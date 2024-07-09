@@ -87,7 +87,7 @@
         <antisamy.version>1.7.6</antisamy.version>
         <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
-        <mysql.version>8.0.30</mysql.version>
+        <postgres.version>42.7.3</postgres.version>
         <flyway.version>10.15.2</flyway.version>
 
         <!--export DOCKER_IMAGE_REPO=127418365645.dkr.ecr.us-east-1.amazonaws.com -->

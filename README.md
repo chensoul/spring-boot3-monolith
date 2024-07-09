@@ -7,7 +7,7 @@
 | 语言          | Java              | 21     |                                                                                                                                                                                                                                   |    |
 | 构建工具        | Maven             | 3.9.6  |                                                                                                                                                                                                                                   |    |
 | 容器编排        | Docker            | 25.0.5 |                                                                                                                                                                                                                                   |    |
-| 数据库         | MySQL             | 8.4.0  |                                                                                                                                                                                                                                   |    |
+| 数据库         | Postgres          | 16     |                                                                                                                                                                                                                                   |    |
 | 缓存          | Redis             | 7.2    |                                                                                                                                                                                                                                   |    |
 | 消息队列        | Rabbitmq          | 3.13.0 |                                                                                                                                                                                                                                   |    |
 | 开发框架        | Spring Boot       | 3.3.1  | <img src="https://img.shields.io/maven-metadata/v?label=&color=blue&versionPrefix=3&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/org/springframework/boot/spring-boot-dependencies/maven-metadata.xml"> |    |
@@ -49,7 +49,7 @@
         - [ ] Validation
         - [ ] Unit Test
     - [x] chapter02: OpenAPI
-    - [x] chapter03: Persistence: MongoDB & MySQL
+    - [x] chapter03: Persistence: MongoDB & Postgres
 
 - 分布式：Distribution
     - [ ] chapter04: Distributed Cache
@@ -135,7 +135,7 @@ istioctl version --remote=false
 ### 本地运行
 
 ```bash
-docker-compose -f docker-compose.yml -p mysql up -d
+docker-compose -f docker-compose.yml -p postgres up -d
 docker-compose -f docker-compose.yml -p redis up -d
 
 mvn clean -DskipTests spring-boot:run -pl monolith-demo
@@ -144,11 +144,8 @@ mvn clean -DskipTests spring-boot:run -pl monolith-demo
 ### Docker 中运行
 
 ```bash
-docker-compose -f docker-compose.yml -p mysql up -d
-docker-compose -f docker-compose.yml -p redis up -d
-
-mvn clean pakcage -DskipTests
-docker-compose -f docker-compose.yml -p monolith-demo-docker up -d
+mvn clean package -DskipTests
+docker compose up --build 
 ```
 
 ### K8s 中运行
@@ -168,8 +165,8 @@ minikube start
 minikube addons enable ingress
 
 cd monolith-demo/src/k8s
-kubectl apply -f mysql-deployment.yaml
-kubectl apply -f mysql-service.yaml
+kubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-service.yaml
 kubectl apply -f redis-deployment.yaml
 kubectl apply -f redis-service.yaml
 kubectl apply -f monolith-demo-deployment.yaml

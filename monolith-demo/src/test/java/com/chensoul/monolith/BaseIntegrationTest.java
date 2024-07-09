@@ -12,7 +12,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.lifecycle.Startables;
@@ -26,14 +26,14 @@ public abstract class BaseIntegrationTest {
 
 	@Container
 	@ServiceConnection //自动更新配置
-	public static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.4.0");
+	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres");
 
 	@Container
-	public static GenericContainer<?> redis = new GenericContainer<>("redis:7.2")
+	public static GenericContainer<?> redis = new GenericContainer<>("redis:7")
 		.withExposedPorts(6379);
 
 	static {
-		Startables.deepStart(mysql, redis).join();
+		Startables.deepStart(postgres, redis).join();
 	}
 
 	@Autowired
