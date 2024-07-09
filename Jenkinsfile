@@ -4,7 +4,7 @@ node {
        git 'https://chensoul.github.io/spring-boot3-monolith'
        mvnHome = tool 'maven'
     }
-    dir('monolith-demo') {
+    dir('monolith') {
          stage('Code scanning'){
              sh '''
              '''
@@ -18,9 +18,9 @@ node {
 
        stage('Docker build'){
             sh '''
-            docker build -t monolith-demo .
-            docker tag monolith-demo:latest chensoul/monolith-demo:latest
-            docker push chensoul/monolith-demo:latest
+            docker build -t monolith .
+            docker tag monolith:latest chensoul/monolith:latest
+            docker push chensoul/monolith:latest
             '''
         }
 

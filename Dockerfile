@@ -8,8 +8,9 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html
 FROM eclipse-temurin:21-jre-jammy as extract
 WORKDIR /build
-ADD target/*.jar app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=layertools -jar app.jar extract --layers --destination extracted
 
 ################################################################################
 FROM eclipse-temurin:21-jre-jammy as final
@@ -27,10 +28,10 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-COPY --from=extract build/dependencies/ ./
-COPY --from=extract build/spring-boot-loader/ ./
-COPY --from=extract build/snapshot-dependencies/ ./
-COPY --from=extract build/application/ ./
+COPY --from=extract build/extracted/dependencies/ ./
+COPY --from=extract build/extracted/spring-boot-loader/ ./
+COPY --from=extract build/extracted/snapshot-dependencies/ ./
+COPY --from=extract build/extracted/application/ ./
 
 EXPOSE 8080
 

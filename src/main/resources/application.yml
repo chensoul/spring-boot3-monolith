@@ -6,7 +6,7 @@ spring.lifecycle.timeout-per-shutdown-phase: 20s
 
 spring:
   application:
-    name: monolith-demo
+    name: monolith
   main:
     keep-alive: true # ensures JVM is kept alive, even if all threads are virtual threads https://docs.spring.io/spring-boot/docs/3.2.0/reference/htmlsingle/#features.spring-application.virtual-threads
   threads:
@@ -30,7 +30,7 @@ spring.flyway:
 spring.datasource:
   hikari.:
     maximum-pool-size: 20
-  url: jdbc:postgresql://localhost:5432/monolith-demo
+  url: jdbc:postgresql://localhost:5432/monolith
   username: postgres
   password: postgres
 
@@ -114,10 +114,10 @@ logging:
 
 ---
 spring.config.activate.on-profile: docker
-spring.datasource.url: jdbc:postgresql://postgres:5432/monolith-demo
+spring.datasource.url: jdbc:postgresql://postgres:5432/monolith
 spring.data.redis.host: redis
 
 ---
 spring.config.activate.on-profile: k8s
-spring.datasource.url: jdbc:postgresql://postgres-service:5432/monolith-demo
+spring.datasource.url: jdbc:postgresql://postgres-service:5432/monolith
 spring.data.redis.host: redis-service

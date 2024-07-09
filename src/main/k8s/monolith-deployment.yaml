@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: monolith-demo-deployment
+  name: monolith-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: monolith-demo
+      app: monolith
   template:
     metadata:
       labels:
-        app: monolith-demo
+        app: monolith
     spec:
       containers:
-        - name: monolith-demo
-          image: chensoul/monolith-demo:latest
+        - name: monolith
+          image: chensoul/monolith:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

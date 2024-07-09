@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Ingress
 metadata:
-  name: monolith-demo-ingress
+  name: monolith-ingress
 spec:
   defaultBackend:
     service:
-      name: monolith-demo
+      name: monolith
       port:
         number: 8080

@@ -9,9 +9,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 @Slf4j
 @SpringBootApplication
 @EnableSharedLib
-public class MonolithDemoApplication {
+public class MonolithApplication {
 	public static void main(String[] args) {
-		ConfigurableApplicationContext ctx = SpringApplication.run(MonolithDemoApplication.class, args);
+		ConfigurableApplicationContext ctx = SpringApplication.run(MonolithApplication.class, args);
 
 		String databaseUri = ctx.getEnvironment().getProperty("spring.datasource.url");
 		log.info("Connected to database: " + databaseUri);

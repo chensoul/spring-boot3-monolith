@@ -1,7 +1,7 @@
 services:
-  monolith-demo:
+  monolith:
     build:
-      context: ./monolith-demo
+      context: .
     ports:
       - "8080:8080"
       - "8000:8000"
@@ -17,7 +17,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=monolith-demo
+      - POSTGRES_DB=monolith
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:

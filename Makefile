@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .PHONY: test install run help
 
-APP_NAME="spring-boot3-monolith"
+APP_NAME="monolith"
 
 help: ## Show this help message.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
@@ -13,7 +13,7 @@ run-app: ## Run app with maven
 	@mvn clean spring-boot:run
 
 start-app-with-docker-image: ## Run app with docker (don't forget to build the image locally before)
-	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:postgres://localhost:5432/monolith-demo" ${APP_NAME}:0.0.1-SNAPSHOT
+	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:postgres://localhost:5432/monolith" ${APP_NAME}:0.0.1-SNAPSHOT
 
 start-app: ## Run app with docker compose
 	@docker compose up -d

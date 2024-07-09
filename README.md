@@ -138,7 +138,7 @@ istioctl version --remote=false
 docker-compose -f docker-compose.yml -p postgres up -d
 docker-compose -f docker-compose.yml -p redis up -d
 
-mvn clean -DskipTests spring-boot:run -pl monolith-demo
+mvn clean -DskipTests spring-boot:run -pl monolith
 ```
 
 ### Docker 中运行
@@ -155,29 +155,28 @@ docker compose up --build
 ```bash
 mvn clean pakcage -DskipTests
 
-docker build -t monolith-demo ./monolith-demo
-docker tag monolith-demo:latest chensoul/monolith-demo:latest
+docker build -t monolith ./monolith
+docker tag monolith:latest chensoul/monolith:latest
 docker login
-docker push chensoul/monolith-demo:latest
+docker push chensoul/monolith:latest
 
 
 minikube start 
 minikube addons enable ingress
 
-cd monolith-demo/src/k8s
+cd src/k8s
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f redis-deployment.yaml
 kubectl apply -f redis-service.yaml
-kubectl apply -f monolith-demo-deployment.yaml
-kubectl apply -f monolith-demo-service.yaml
+kubectl apply -f monolith-deployment.yaml
+kubectl apply -f monolith-service.yaml
 
 kubectl get pods
 kubectl get deployments
 kubectl get services
 
-
-minikube service monolith-demo-service --url
+minikube service monolith-service --url
 #http://127.0.0.1:57936
 
 ```

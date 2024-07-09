@@ -19,6 +19,6 @@ spec:
             - name: POSTGRES_PASSWORD
               value: root  # Set your desired root password here
             - name: POSTGRES_DATABASE
-              value: monolith-demo
+              value: monolith
           ports:
             - containerPort: 5432
