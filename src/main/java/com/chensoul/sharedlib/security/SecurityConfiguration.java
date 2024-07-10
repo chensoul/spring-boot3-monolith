@@ -24,7 +24,7 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securedFilterChain(final HttpSecurity http) throws Exception {
 		log.warn("Secured FilterChain enabled");
-		http.csrf(csrf -> csrf.disable())
+		http.csrf(Customizer.withDefaults())
 			.authorizeHttpRequests(authz -> authz
 				.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 				.requestMatchers("/api/**").authenticated())
@@ -42,7 +42,6 @@ public class SecurityConfiguration {
 		return http.authorizeRequests()
 			.anyRequest().permitAll()
 			.and()
-			.csrf(csrf -> csrf.disable())
 			.build();
 	}
 }

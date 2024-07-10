@@ -21,7 +21,8 @@ jobs:
         java-version: [ 21 ]
         os: [ ubuntu-latest ]
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v4
         with:
@@ -41,6 +42,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
+          context: ./Dockerfile.simple
           push: true
-          target: final
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
