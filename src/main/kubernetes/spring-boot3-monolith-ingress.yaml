@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: monolith-ingress
+  name: spring-boot3-monolith-ingress
 spec:
   defaultBackend:
     service:
-      name: monolith-service
+      name: spring-boot3-monolith-service
       port:
         number: 8080

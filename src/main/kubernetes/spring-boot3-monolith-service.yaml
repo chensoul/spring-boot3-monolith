@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: monolith-service
+  name: spring-boot3-monolith-service
 spec:
   type: NodePort
   selector:

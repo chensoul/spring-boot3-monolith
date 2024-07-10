@@ -176,14 +176,14 @@ docker push chensoul/spring-boot3-monolith:latest
 minikube start 
 minikube addons enable ingress
 
-cd src/main/k8s
+cd src/main/kubernetes
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f redis-deployment.yaml
 kubectl apply -f redis-service.yaml
-kubectl apply -f monolith-deployment.yaml
-kubectl apply -f monolith-service.yaml
-kubectl apply -f monolith-ingress.yaml
+kubectl apply -f spring-boot3-monolith-deployment.yaml
+kubectl apply -f spring-boot3-monolith-service.yaml
+kubectl apply -f spring-boot3-monolith-ingress.yaml
 
 kubectl get pods
 kubectl get deployments
@@ -204,12 +204,14 @@ kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f redis-deployment.yaml
 kubectl apply -f redis-service.yaml
-kubectl apply -f monolith-deployment.yaml
-kubectl apply -f monolith-service.yaml
+kubectl apply -f spring-boot3-monolith-deployment.yaml
+kubectl apply -f spring-boot3-monolith-service.yaml
+kubectl apply -f spring-boot3-monolith-ingress.yaml
 
 kubectl get pods
 kubectl get deployments
 kubectl get services
+kubectl get ingress
 ```
 
 访问服务：

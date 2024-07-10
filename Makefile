@@ -16,7 +16,7 @@ start-app-with-docker-image: ## Run app with docker (don't forget to build the i
 	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:postgres://localhost:5432/monolith" ${APP_NAME}
 
 start-app: ## Run app with docker compose
-	@docker compose up -d
+	@docker compose up -d --build
 	@docker compose logs -f ${APP_NAME}
 
 start-infra: ## Run required infrastructure with docker compose
@@ -30,7 +30,7 @@ start-all: ## Run all containers with docker compose
 
 restart-all: ## Restart containers with docker compose
 	@docker compose stop ${APP_NAME}
-	@docker compose up -d
+	@docker compose up -d --build
 	@docker compose logs -f ${APP_NAME}
 
 start-database: ## Run app database
