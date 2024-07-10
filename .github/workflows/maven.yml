@@ -13,6 +13,9 @@ on:
     branches:
       - main
 
+env:
+  DOCKER_REGISTRY_URL: myregistry.domain.com
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,12 +39,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Build docker image and push
-        uses: docker/build-push-action@v6
-        with:
-          platforms: linux/amd64,linux/arm64
-          file: ./Dockerfile.simple
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile.simple --tag ${{ github.event.repository.name }}
+      - name: Create a latest image as well
+        run: docker tag ${{ github.event.repository.name }} ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+      - name: Push the Docker image with version number
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+      - name: Remove the Docker image with latest tag
+        run: docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+      - name: Remove the local image
+        run: docker rmi ${{ github.event.repository.name }}
