@@ -197,3 +197,4 @@ minikube service monolith-service --url
 - [告别重复：在 Spring Boot 中构建通用库](https://medium.com/@jovanoskivasko14/say-goodbye-to-repetition-building-a-common-library-in-spring-boot-44e709b6f67d)
 - [Integration Testing With Keycloak, Spring Security, Spring Boot, and Spock Framework](https://dzone.com/articles/integration-testing-with-keycloak-spring-security)
 - [Spring Boot 3.2 综合指南，包含 Java 21、虚拟线程、Spring Security、PostgreSQL、Flyway、缓存、Micrometer、Opentelemetry、JUnit 5、RabbitMQ、Keycloak 集成等！(10/17)](https://itnext.io/exploring-a-base-spring-boot-application-with-java-21-virtual-thread-spring-security-flyway-c0fde13c1eca)
+- [使用 Docker 容器化并运行 Spring Boot 应用程序](https://blog.chensoul.cc/posts/2024/07/09/docker-for-spring-boot/)
