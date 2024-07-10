@@ -34,6 +34,11 @@ jobs:
       - name: Test with Maven
         run: mvn --ntp dependency:go-offline test
 
+      #      - name: SonarQube Scan
+      #        env:
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #        run: mvn --ntp sonar:sonar -DskipTests -Dsonar.host.url=${{ secrets.SONAR_URL }} -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+
       - name: Package with Maven
         run: mvn --ntp package -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip
 

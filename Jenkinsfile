@@ -18,8 +18,8 @@ node {
 
        stage('Docker build'){
             sh '''
-            docker build -t spring-boot3-monolith .
-            docker tag monolith:latest chensoul/spring-boot3-monolith:latest
+            docker build . --file Dockerfile.simple -t spring-boot3-monolith
+            docker tag spring-boot3-monolith chensoul/spring-boot3-monolith:latest
             docker push chensoul/spring-boot3-monolith:latest
             '''
         }
