@@ -40,5 +40,5 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build . --file Dockerfile.simple -t ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
