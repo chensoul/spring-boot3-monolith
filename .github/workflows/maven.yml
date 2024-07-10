@@ -35,7 +35,7 @@ jobs:
         run: mvn -B test --ntp
 
       - name: Package with Maven
-        run: mvn -B test package --ntp
+        run: mvn -B package --ntp
 
       - name: Build and Push Docker Image
         env:
