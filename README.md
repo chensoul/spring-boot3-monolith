@@ -138,14 +138,21 @@ istioctl version --remote=false
 docker-compose -f docker-compose.yml -p postgres up -d
 docker-compose -f docker-compose.yml -p redis up -d
 
-mvn clean -DskipTests spring-boot:run -pl monolith
+mvn clean -DskipTests spring-boot:run
 ```
 
 ### Docker 中运行
 
+构建镜像并运行测试：
+
 ```bash
-mvn clean package -DskipTests
-docker compose up --build 
+docker build -t monolith-test --progress=plain --no-cache --target=test .
+```
+
+构建镜像并运行启动应用：
+
+```bash
+docker compose up --build
 ```
 
 ### K8s 中运行
@@ -155,7 +162,7 @@ docker compose up --build
 ```bash
 mvn clean pakcage -DskipTests
 
-docker build -t monolith ./monolith
+docker build -t monolith .
 docker tag monolith:latest chensoul/monolith:latest
 docker login
 docker push chensoul/monolith:latest
