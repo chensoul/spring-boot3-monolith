@@ -13,7 +13,7 @@ run-app: ## Run app with maven
 	@mvn clean spring-boot:run
 
 start-app-with-docker-image: ## Run app with docker (don't forget to build the image locally before)
-	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:postgres://localhost:5432/monolith" ${APP_NAME}:0.0.1-SNAPSHOT
+	@docker run --net host -e SPRING_DATASOURCE_URL="jdbc:postgres://localhost:5432/monolith" ${APP_NAME}
 
 start-app: ## Run app with docker compose
 	@docker compose up -d

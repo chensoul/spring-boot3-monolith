@@ -6,15 +6,15 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: monolith
+      app: spring-boot3-monolith
   template:
     metadata:
       labels:
-        app: monolith
+        app: spring-boot3-monolith
     spec:
       containers:
-        - name: monolith
-          image: chensoul/monolith:latest
+        - name: spring-boot3-monolith
+          image: chensoul/spring-boot3-monolith:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

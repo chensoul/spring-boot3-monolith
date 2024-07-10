@@ -162,10 +162,10 @@ docker compose up --build
 ```bash
 mvn clean pakcage -DskipTests
 
-docker build -t monolith .
-docker tag monolith:latest chensoul/monolith:latest
+docker build -t spring-boot3-monolith .
+docker tag spring-boot3-monolith:latest chensoul/spring-boot3-monolith:latest
 docker login
-docker push chensoul/monolith:latest
+docker push chensoul/spring-boot3-monolith:latest
 
 
 minikube start 

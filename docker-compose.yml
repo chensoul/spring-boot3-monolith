@@ -1,5 +1,5 @@
 services:
-  monolith:
+  spring-boot3-monolith:
     build:
       context: .
     ports:
