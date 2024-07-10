@@ -7,13 +7,13 @@ on:
     branches:
       - main
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [ opened, reopened, synchronize ]
 
 permissions:
   contents: read
 
 jobs:
-  update_release_draft:
+  build:
     permissions:
       contents: write
       pull-requests: write
