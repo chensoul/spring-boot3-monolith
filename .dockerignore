@@ -23,6 +23,7 @@
 **/docker-compose*
 **/compose.y*ml
 **/target/*-sources.jar
+**/target/*-javadoc.jar
 **/Dockerfile*
 **/node_modules
 **/npm-debug.log

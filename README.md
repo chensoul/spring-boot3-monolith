@@ -146,7 +146,7 @@ mvn clean -DskipTests spring-boot:run
 构建镜像并运行测试：
 
 ```bash
-docker build -t monolith-test --progress=plain --no-cache --target=test .
+docker build -t chensoul/spring-boot3-monolith-test --progress=plain --no-cache --target=test .
 ```
 
 构建镜像并运行启动应用：
@@ -157,7 +157,7 @@ docker compose up --build
 
 ### K8s 中运行
 
-参考 [从本地主机到云：使用 Docker Desktop 在 Kubernetes 上部署 Spring Boot + MySQL 应用程](https://levelup.gitconnected.com/from-localhost-to-the-cloud-deploying-spring-boot-mysql-app-on-kubernetes-with-docker-desktop-a-8c51f9cd23fa)
+构建镜像并推送：
 
 ```bash
 mvn clean pakcage -DskipTests
@@ -166,11 +166,39 @@ docker build -t spring-boot3-monolith .
 docker tag spring-boot3-monolith:latest chensoul/spring-boot3-monolith:latest
 docker login
 docker push chensoul/spring-boot3-monolith:latest
+```
 
+#### 部署到 minikube
 
+参考 [从本地主机到云：使用 Docker Desktop 在 Kubernetes 上部署 Spring Boot + MySQL 应用程](https://levelup.gitconnected.com/from-localhost-to-the-cloud-deploying-spring-boot-mysql-app-on-kubernetes-with-docker-desktop-a-8c51f9cd23fa)：
+
+```bash
 minikube start 
 minikube addons enable ingress
 
+cd src/main/k8s
+kubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-service.yaml
+kubectl apply -f redis-deployment.yaml
+kubectl apply -f redis-service.yaml
+kubectl apply -f monolith-deployment.yaml
+kubectl apply -f monolith-service.yaml
+kubectl apply -f monolith-ingress.yaml
+
+kubectl get pods
+kubectl get deployments
+kubectl get services
+kubectl get ingress
+
+minikube service monolith-service --url
+#http://127.0.0.1:57936
+```
+
+#### 部署到本地 k8s
+
+首先，在 Docker Desktop 中[打开 Kubernetes](https://docs.docker.com/desktop/kubernetes/#install-and-turn-on-kubernetes)。
+
+```bash
 cd src/k8s
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
@@ -182,18 +210,22 @@ kubectl apply -f monolith-service.yaml
 kubectl get pods
 kubectl get deployments
 kubectl get services
+```
 
-minikube service monolith-service --url
-#http://127.0.0.1:57936
+访问服务：
 
+```bash
+ curl --request GET \
+  --url http://localhost:30001/actuator/health \
+  --header 'content-type: application/json'
 ```
 
 ## 参考
 
 - https://github.com/xsreality/spring-modulith-with-ddd
-- [Spring Boot 高级实践：使用 Docker、Zipkin 和 100% 代码覆盖率构建模块化应用程序](https://www.makariev.com/blog/advanced-spring-boot-structure-clean-architecture-modulith/)
 - https://github.com/chensoul/Microservices-with-Spring-Boot-and-Spring-Cloud-Third-Edition
 - https://github.com/in28minutes/spring-microservices-v3
+- [Spring Boot 高级实践：使用 Docker、Zipkin 和 100% 代码覆盖率构建模块化应用程序](https://www.makariev.com/blog/advanced-spring-boot-structure-clean-architecture-modulith/)
 - [告别重复：在 Spring Boot 中构建通用库](https://medium.com/@jovanoskivasko14/say-goodbye-to-repetition-building-a-common-library-in-spring-boot-44e709b6f67d)
 - [Integration Testing With Keycloak, Spring Security, Spring Boot, and Spock Framework](https://dzone.com/articles/integration-testing-with-keycloak-spring-security)
 - [Spring Boot 3.2 综合指南，包含 Java 21、虚拟线程、Spring Security、PostgreSQL、Flyway、缓存、Micrometer、Opentelemetry、JUnit 5、RabbitMQ、Keycloak 集成等！(10/17)](https://itnext.io/exploring-a-base-spring-boot-application-with-java-21-virtual-thread-spring-security-flyway-c0fde13c1eca)

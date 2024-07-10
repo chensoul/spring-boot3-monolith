@@ -17,8 +17,8 @@ spec:
           image: postgres:latest
           env:
             - name: POSTGRES_PASSWORD
-              value: root  # Set your desired root password here
-            - name: POSTGRES_DATABASE
+              value: postgres  # Set your desired root password here
+            - name: POSTGRES_DB
               value: monolith
           ports:
             - containerPort: 5432
