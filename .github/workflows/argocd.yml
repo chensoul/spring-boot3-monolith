@@ -13,4 +13,5 @@ jobs:
         env:
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
         run: |
-          curl -X POST -H "Authorization: Bearer $ARGOCD_TOKEN" https://argocd-server/api/v1/applications/spring-boot3-monolith/sync
+          bash
+#          curl -X POST -H "Authorization: Bearer $ARGOCD_TOKEN" https://argocd-server/api/v1/applications/spring-boot3-monolith/sync
