@@ -32,13 +32,17 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        run: mvn --ntp test
+        run: mvn --ntp dependency:go-offline test
 
       - name: Package with Maven
         run: mvn --ntp package -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip
 
       - name: Build and Push Docker Image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          IMAGE_NAME: ${{ github.event.repository.name }}
         run: |
-          docker build . --file Dockerfile.simple -t ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+          docker build . --file Dockerfile.simple -t $DOCKER_USERNAME/$IMAGE_NAME:latest
+          docker login -u $DOCKER_USERNAME -p $DOCKERHUB_TOKEN
+          docker push $DOCKER_USERNAME/$IMAGE_NAME:latest

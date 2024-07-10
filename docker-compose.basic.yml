@@ -36,23 +36,6 @@ services:
     volumes:
       - sonar_data:/opt/sonarqube
 
-  artifactory-oss:
-    image: releases-docker.jfrog.io/jfrog/artifactory-jcr:7.84.15
-    container_name: artifactory-oss
-    environment:
-      - JF_SHARED_DATABASE_TYPE=postgresql
-      # The following must match the POSTGRES_USER and POSTGRES_PASSWORD values passed to PostgreSQL
-      - JF_SHARED_DATABASE_USERNAME=artifactory
-      - JF_SHARED_DATABASE_PASSWORD=password
-      - JF_SHARED_DATABASE_URL=jdbc:postgresql://postgresql:5432/artifactory
-      - JF_SHARED_DATABASE_DRIVER=org.postgresql.Driver
-    ports:
-      - "8081:8081"
-      - "8082:8082"
-    volumes:
-      - artifactory_data:/var/opt/jfrog/artifactory
-      - /etc/localtime:/etc/localtime:ro
-
   nexus:
     image: sonatype/nexus3
     container_name: nexus

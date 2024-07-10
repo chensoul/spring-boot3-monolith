@@ -178,7 +178,7 @@ docker push chensoul/spring-boot3-monolith:latest
 minikube start 
 minikube addons enable ingress
 
-cd src/main/kubernetes
+cd kubernetes
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f redis-deployment.yaml
@@ -201,7 +201,7 @@ minikube service monolith-service --url
 首先，在 Docker Desktop 中[打开 Kubernetes](https://docs.docker.com/desktop/kubernetes/#install-and-turn-on-kubernetes)。
 
 ```bash
-cd src/k8s
+cd kubernetes
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f redis-deployment.yaml

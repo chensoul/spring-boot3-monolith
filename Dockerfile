@@ -13,7 +13,7 @@ WORKDIR /build
 COPY ./src src/
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
-    ./mvnw --ntp test
+    ./mvnw --ntp dependency:go-offline test
 
 FROM test AS package
 WORKDIR /build

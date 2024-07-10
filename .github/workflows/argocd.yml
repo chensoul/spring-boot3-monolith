@@ -1,0 +1,16 @@
+#name: ArgoCD
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Trigger ArgoCD Sync
+#        env:
+#          ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+#        run: |
+#          curl -X POST -H "Authorization: Bearer $ARGOCD_TOKEN" https://argocd-server/api/v1/applications/spring-boot3-monolith/sync
