@@ -30,7 +30,7 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
 # https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html
 FROM package AS extract
 WORKDIR /build
-RUN java -Djarmode=layertools -jar app.jar extract --destination extracted
+RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 
 FROM extract AS development
 WORKDIR /build

@@ -152,6 +152,8 @@ docker build -t chensoul/spring-boot3-monolith-test --progress=plain --no-cache 
 构建镜像并运行启动应用：
 
 ```bash
+docker build . --file Dockerfile.simple -t chensoul/spring-boot3-monolith
+
 docker compose up --build
 ```
 
