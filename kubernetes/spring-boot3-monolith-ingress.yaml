@@ -3,8 +3,15 @@ kind: Ingress
 metadata:
   name: spring-boot3-monolith-ingress
 spec:
-  defaultBackend:
-    service:
-      name: spring-boot3-monolith-service
-      port:
-        number: 8080
+  ingressClassName: nginx
+  rules:
+    - host: monolith.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-boot3-monolith-service
+                port:
+                  number: 8080

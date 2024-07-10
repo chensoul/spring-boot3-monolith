@@ -152,9 +152,14 @@ docker build -t chensoul/spring-boot3-monolith-test --progress=plain --no-cache 
 构建镜像并运行启动应用：
 
 ```bash
-docker build . --file Dockerfile.simple -t chensoul/spring-boot3-monolith
-
 docker compose up --build
+```
+
+使用 Dockerfile.simple 文件构建镜像：
+
+```bash
+mvn clean package -DskipTests
+docker build . --file Dockerfile.simple -t chensoul/spring-boot3-monolith
 ```
 
 ### K8s 中运行
@@ -162,8 +167,6 @@ docker compose up --build
 构建镜像并推送：
 
 ```bash
-mvn clean pakcage -DskipTests
-
 docker build -t spring-boot3-monolith .
 docker tag spring-boot3-monolith:latest chensoul/spring-boot3-monolith:latest
 docker login
@@ -172,7 +175,8 @@ docker push chensoul/spring-boot3-monolith:latest
 
 #### 部署到 minikube
 
-参考 [从本地主机到云：使用 Docker Desktop 在 Kubernetes 上部署 Spring Boot + MySQL 应用程](https://levelup.gitconnected.com/from-localhost-to-the-cloud-deploying-spring-boot-mysql-app-on-kubernetes-with-docker-desktop-a-8c51f9cd23fa)：
+参考 [从本地主机到云：使用 Docker Desktop 在 Kubernetes 上部署 Spring Boot + MySQL 应用程](https://levelup.gitconnected.com/from-localhost-to-the-cloud-deploying-spring-boot-mysql-app-on-kubernetes-with-docker-desktop-a-8c51f9cd23fa)
+，先构建镜像并推送到 docker 镜像中心。
 
 ```bash
 minikube start 
@@ -192,8 +196,19 @@ kubectl get deployments
 kubectl get services
 kubectl get ingress
 
-minikube service monolith-service --url
-#http://127.0.0.1:57936
+sudo minikube tunnel
+```
+
+在 /etc/hosts 添加
+
+```bash
+127.0.0.1 monolith.example.com
+```
+
+测试服务是否可以访问：
+
+```bash
+curl -s --request GET --url http://monolith.example.com/actuator/health
 ```
 
 #### 部署到本地 k8s
@@ -216,12 +231,10 @@ kubectl get services
 kubectl get ingress
 ```
 
-访问服务：
+测试服务是否可以访问：
 
 ```bash
- curl --request GET \
-  --url http://localhost:30001/actuator/health \
-  --header 'content-type: application/json'
+curl -s --request GET --url http://localhost:30001/actuator/health
 ```
 
 ## 参考
