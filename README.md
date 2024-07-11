@@ -143,13 +143,13 @@ mvn clean -DskipTests spring-boot:run
 
 ### Docker 中运行
 
-构建镜像并运行测试：
+使用 Dockerfile 构建镜像并运行测试：
 
 ```bash
 docker build -t chensoul/spring-boot3-monolith-test --progress=plain --no-cache --target=test .
 ```
 
-构建镜像并运行启动应用：
+使用 Dockerfile 构建镜像并运行启动应用：
 
 ```bash
 docker compose up --build
@@ -158,7 +158,6 @@ docker compose up --build
 使用 Dockerfile.simple 文件构建镜像：
 
 ```bash
-mvn clean package -DskipTests
 docker build . --file Dockerfile.simple -t chensoul/spring-boot3-monolith
 ```
 
@@ -181,6 +180,7 @@ docker push chensoul/spring-boot3-monolith:latest
 ```bash
 minikube start 
 minikube addons enable ingress
+sudo minikube tunnel
 
 cd kubernetes
 kubectl apply -f postgres-deployment.yaml
@@ -195,8 +195,6 @@ kubectl get pods
 kubectl get deployments
 kubectl get services
 kubectl get ingress
-
-sudo minikube tunnel
 ```
 
 在 /etc/hosts 添加

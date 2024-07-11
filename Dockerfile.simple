@@ -1,18 +1,13 @@
-# syntax=docker/dockerfile:1
-
-################################################################################
-# Create a stage for extracting the application into separate layers.
-# Take advantage of Spring Boot's layer tools and Docker's caching by extracting
-# the packaged application into separate layers that can be copied into the final stage.
-# See Spring's docs for reference:
-# https://docs.spring.io/spring-boot/docs/current/reference/html/container-images.html
-FROM eclipse-temurin:21-jdk-jammy AS extract
+FROM maven:3-eclipse-temurin-21-alpine AS build
 WORKDIR /build
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+COPY . .
+RUN mvn install -DskipTests
+
+FROM build AS extract
+WORKDIR /build
+COPY target/*.jar app.jar
 RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 
-################################################################################
 FROM eclipse-temurin:21-jre-jammy AS final
 WORKDIR /app
 
