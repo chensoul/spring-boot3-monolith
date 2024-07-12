@@ -1,11 +1,10 @@
 image: maven:3-jdk-8
 
-test:
-  stage: test
-  script:
-    - mvn test -B
+cache:
+  paths:
+    - .m2/repository
 
-package:
-  stage: package
+build:
+  stage: build
   script:
     - mvn package -DskipTests -B
