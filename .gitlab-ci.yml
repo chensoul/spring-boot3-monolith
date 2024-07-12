@@ -1,10 +1,11 @@
-image: maven:3.9.8-eclipse-temurin-21
-
-cache:
-  paths:
-    - .m2/repository
-
 build:
   stage: build
+  image: maven:3.9.8-eclipse-temurin-21
+  cache:
+    paths:
+      - .m2/repository
+  artifacts:
+    paths:
+      - target/*.jar 
   script:
-    - mvn package -DskipTests -B
+    - mvn package --ntp -DskipTests -B
