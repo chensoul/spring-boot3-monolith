@@ -4,7 +4,6 @@ build:
   cache:
     paths:
       - .m2/repository
-      - target/
   script:
     - mvn package --ntp -DskipTests -B
   artifacts:
