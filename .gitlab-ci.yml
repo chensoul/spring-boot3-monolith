@@ -4,8 +4,10 @@ build:
   cache:
     paths:
       - .m2/repository
-  artifacts:
-    paths:
-      - target/*.jar 
+      - target/
   script:
     - mvn package --ntp -DskipTests -B
+  artifacts:
+    when: always
+    paths:
+      - target/*.jar 
