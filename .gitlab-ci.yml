@@ -1,0 +1,11 @@
+image: maven:3-jdk-8
+
+test:
+  stage: test
+  script:
+    - mvn test -B
+
+package:
+  stage: package
+  script:
+    - mvn package -DskipTests -B
