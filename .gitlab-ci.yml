@@ -23,9 +23,6 @@ build:
 
 deploy_image:
   stage: deploy
-  image: docker:latest
-  services:
-    - docker:26.1.4-dind
   #  rules:
   #    - if: '$CI_COMMIT_TAG'
   tags:
