@@ -12,7 +12,7 @@ node {
 
         stage('Maven build and Unit Test'){
             sh '''
-            mvn clean package
+            mvn -ntp -B -U clean package
             '''
         }
 
