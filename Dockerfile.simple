@@ -1,4 +1,4 @@
-FROM maven:3-eclipse-temurin-21-alpine AS extract
+FROM eclipse-temurin:21-jre-jammy AS extract
 WORKDIR /build
 COPY target/*.jar app.jar
 RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
