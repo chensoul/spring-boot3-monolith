@@ -14,14 +14,13 @@ stages:
   - package
   - deploy
 
-
 build_job:
   stage: build
   tags:
     - docker
   script:
     - echo "Maven compile started"
-    - "mvn compile"
+    - "mvn -ntp -B -U compile"
 
 test_job:
   stage: test
@@ -29,7 +28,7 @@ test_job:
     - docker
   script:
     - echo "Maven test started"
-    - "mvn test"
+    - "mvn -ntp -B -U test"
 
 package_job:
   stage: package
@@ -37,7 +36,7 @@ package_job:
     - docker
   script:
     - echo "Maven packaging started"
-    - "mvn package"
+    - "mvn -ntp -B -U package -DskipTests"
 
 deploy_job:
   stage: deploy
@@ -45,3 +44,7 @@ deploy_job:
     - docker
   script:
     - echo "Maven deploy started"
+    - "mvn -ntp -B -U deploy"
+  artifacts:
+    paths:
+      - target/*.jar
