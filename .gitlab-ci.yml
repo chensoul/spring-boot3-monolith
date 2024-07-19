@@ -1,12 +1,22 @@
-build:
-  stage: build
-  image: maven:3.9.8-eclipse-temurin-21
-  cache:
+default:
+  cache: # 全局缓存配置
     paths:
       - .m2/repository
+      - target/
+
+stages:
+  - build
+  - deploy
+
+package:
+  stage: build
+  image: maven:3.9.8-eclipse-temurin-21
   script:
-    - mvn package --ntp -DskipTests -B
+    - mvn test --ntp -B -U clean package
+
+deploy:
+  stage: deploy
   artifacts:
     when: always
     paths:
-      - target/*.jar 
+      - target/*.jar
