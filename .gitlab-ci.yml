@@ -1,10 +1,10 @@
 variables:
-  MAVEN_CLI_OPTS: "-s .mvn/settings.xml -ntp -B -U"
-  MAVEN_OPTS: "-Dmaven.repo.local=/root/.m2/repository"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml -ntp -B -U"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 cache:
   paths:
-    - /root/.m2/repository
+    - .m2/repository
     - target
 
 stages:
