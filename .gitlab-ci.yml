@@ -1,9 +1,10 @@
 variables:
-  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+  MAVEN_CLI_OPTS: "-s .mvn/settings.xml -ntp -B -U"
+  MAVEN_OPTS: "-Dmaven.repo.local=/root/.m2/repository"
 
 cache:
   paths:
-    - .m2/repository
+    - /root/.m2/repository
     - target
 
 stages:
@@ -18,7 +19,7 @@ build:
     - docker
   script:
     - echo "Maven packaging  started"
-    - "mvn -ntp -B -U package"
+    - "mvn package"
 
 deploy_jar:
   stage: deploy
@@ -27,7 +28,7 @@ deploy_jar:
     - docker
   script:
     - echo "Maven deploy started"
-    - "mvn -ntp -B -U deploy"
+    - "mvn deploy"
   artifacts:
     paths:
       - target/*.jar
@@ -42,8 +43,8 @@ deploy_image:
     - docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD
   script:
     - docker build -t $DOCKER_USERNAME/$CI_PROJECT_NAME:latest -t $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA -f Dockerfile.simple .
-    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
-    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA
+#    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
+#    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA
 
 test:
   stage: test
