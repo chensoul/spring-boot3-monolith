@@ -27,7 +27,7 @@ deploy_jar:
     - docker
   script:
     # https://software.rcc.uchicago.edu/git/help/ci/examples/artifactory_and_gitlab/index.md
-    - mvn deploy -DskipTests -DOSSRH_USERNAME=${OSSRH_USERNAME} -DOSSRH_TOKEN=${OSSRH_TOKEN}
+    - mvn $MAVEN_CLI_OPTS deploy -DskipTests -DOSSRH_USERNAME=${OSSRH_USERNAME} -DOSSRH_TOKEN=${OSSRH_TOKEN}
   artifacts:
     paths:
       - target/*.jar
