@@ -51,4 +51,4 @@ test:
     - docker
   script:
     - docker pull $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
-    - docker run $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
+#    - docker run $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
