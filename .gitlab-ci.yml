@@ -24,8 +24,6 @@ build:
 deploy_image:
   stage: deploy
   image: docker:latest
-  services:
-    - docker:dind
   tags:
     - docker
   before_script:
