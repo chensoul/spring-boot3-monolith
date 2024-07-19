@@ -1,18 +1,53 @@
-default:
-  cache: # 全局缓存配置
-    paths:
-      - .m2/repository
-      - target/
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
+
+image: maven:latest
 
 stages:
   - build
+  - test
+  - package
+  - deploy
 
-package:
+
+cache:
+  paths:
+    - .m2/repository
+    - target
+
+build_job:
   stage: build
-  image: maven:3.9.8-eclipse-temurin-21
+  tags:
+    - docker
+
   script:
-    - mvn test --ntp -B -U clean package
-  artifacts:
-    when: always
-    paths:
-      - target/*.jar
+    - echo "Maven compile started"
+    - "mvn compile"
+
+
+test_job:
+  stage: test
+  tags:
+    - docker
+
+  script:
+    - echo "Maven test started"
+    - "mvn test"
+
+package_job:
+  stage: package
+  tags:
+    - docker
+
+  script:
+    - echo "Maven packaging started"
+    - "mvn package"
+
+
+Deploy_job:
+  stage: deploy
+  tags:
+    - docker
+
+  script:
+    - echo "Maven deploy started"
