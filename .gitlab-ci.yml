@@ -1,7 +1,7 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-image: maven:3-jdk-8
+image: maven:3-jdk-21
 
 cache:
   paths:
