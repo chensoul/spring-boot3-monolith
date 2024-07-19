@@ -41,7 +41,7 @@ deploy_image:
   before_script:
     - docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD
   script:
-    - docker build -t $DOCKER_USERNAME/$CI_PROJECT_NAME:latest -t $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA -f Dockerfile.simple .
+    - docker build -t $DOCKER_USERNAME/$CI_PROJECT_NAME:latest -t $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA -f Dockerfile .
 #    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
 #    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHA
 

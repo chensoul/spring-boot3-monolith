@@ -3,6 +3,7 @@ services:
     build:
       context: .
       target: development
+    image: chensoul/spring-boot3-monolith
     container_name: spring-boot3-monolith
     ports:
       - "8080:8080"

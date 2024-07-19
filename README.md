@@ -158,7 +158,7 @@ docker compose up --build
 使用 Dockerfile.simple 文件构建镜像：
 
 ```bash
-docker build . --file Dockerfile.simple -t chensoul/spring-boot3-monolith
+docker build . --file Dockerfile.maven -t chensoul/spring-boot3-monolith
 ```
 
 ### K8s 中运行
