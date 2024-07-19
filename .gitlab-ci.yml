@@ -10,42 +10,25 @@ cache:
 
 stages:
   - build
-  - test
-  - package
   - deploy
+  - test
 
 build:
   stage: build
   tags:
     - docker
   script:
-    - echo "Maven compile started"
-    - "mvn -ntp -B -U compile"
-
-test:
-  stage: test
-  tags:
-    - docker
-  script:
-    - echo "Maven test started"
-    - "mvn -ntp -B -U test"
-
-package:
-  stage: package
-  tags:
-    - docker
-  script:
-    - echo "Maven packaging started"
-    - "mvn -ntp -B -U package -DskipTests"
+    - echo "Maven packaging  started"
+    - "mvn -ntp -B -U package"
 
 deploy_image:
   stage: deploy
-  image: docker
+  image: docker:dind
   tags:
     - docker
+  before_script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   script:
-    - echo "Maven deploy started"
-    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker build -t $DOCKER_USERNAME/$CI_PROJECT_NAME:latest .
     - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
 
@@ -59,3 +42,11 @@ deploy_jar:
   artifacts:
     paths:
       - target/*.jar
+
+test:
+  stage: test
+  tags:
+    - docker
+  script:
+    - docker pull $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
+    - docker run $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
