@@ -1,8 +1,6 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-image: maven:3.9.8-eclipse-temurin-21
-
 cache:
   paths:
     - .m2/repository
@@ -15,6 +13,7 @@ stages:
 
 build:
   stage: build
+  image: maven:3.9.8-eclipse-temurin-21
   tags:
     - docker
   script:
@@ -35,6 +34,7 @@ deploy_image:
 
 deploy_jar:
   stage: deploy
+  image: maven:3.9.8-eclipse-temurin-21
   tags:
     - docker
   script:
