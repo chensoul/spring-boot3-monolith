@@ -24,11 +24,14 @@ build:
 deploy_image:
   stage: deploy
   image: docker:latest
+  services:
+    - docker:26.1.4-dind
+  #  rules:
+  #    - if: '$CI_COMMIT_TAG'
   tags:
     - docker
   before_script:
-    - unset DOCKER_HOST
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD
   script:
     - docker build -t $DOCKER_USERNAME/$CI_PROJECT_NAME:latest .
     - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
