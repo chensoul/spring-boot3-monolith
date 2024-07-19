@@ -14,7 +14,7 @@ stages:
   - package
   - deploy
 
-build_job:
+build:
   stage: build
   tags:
     - docker
@@ -22,7 +22,7 @@ build_job:
     - echo "Maven compile started"
     - "mvn -ntp -B -U compile"
 
-test_job:
+test:
   stage: test
   tags:
     - docker
@@ -30,7 +30,7 @@ test_job:
     - echo "Maven test started"
     - "mvn -ntp -B -U test"
 
-package_job:
+package:
   stage: package
   tags:
     - docker
@@ -38,7 +38,18 @@ package_job:
     - echo "Maven packaging started"
     - "mvn -ntp -B -U package -DskipTests"
 
-deploy_job:
+deploy_image:
+  stage: deploy
+  image: docker
+  tags:
+    - docker
+  script:
+    - echo "Maven deploy started"
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -t $DOCKER_USERNAME/$CI_PROJECT_NAME:latest .
+    - docker push $DOCKER_USERNAME/$CI_PROJECT_NAME:latest
+
+deploy_jar:
   stage: deploy
   tags:
     - docker
