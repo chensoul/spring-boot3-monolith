@@ -1,9 +1,4 @@
-FROM maven:3-eclipse-temurin-21-alpine AS build
-WORKDIR /build
-COPY . .
-RUN mvn install -DskipTests
-
-FROM build AS extract
+FROM maven:3-eclipse-temurin-21-alpine AS extract
 WORKDIR /build
 COPY target/*.jar app.jar
 RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted

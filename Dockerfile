@@ -13,14 +13,14 @@ WORKDIR /build
 COPY ./src src/
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
-    ./mvnw --ntp dependency:go-offline test
+    ./mvnw -ntp -B -U dependency:go-offline test
 
 FROM test AS package
 WORKDIR /build
 COPY ./src src/
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
-    ./mvnw --ntp package -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip && \
+    ./mvnw -ntp -B -U package -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip && \
     mv target/*.jar app.jar
 
 # Create a stage for extracting the application into separate layers.
