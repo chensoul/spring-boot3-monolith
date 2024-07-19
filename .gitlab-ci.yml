@@ -18,8 +18,7 @@ build:
   tags:
     - docker
   script:
-    - echo "Maven packaging  started"
-    - "mvn package"
+    - mvn package
 
 deploy_jar:
   stage: deploy
@@ -27,8 +26,8 @@ deploy_jar:
   tags:
     - docker
   script:
-    - echo "Maven deploy started"
-    - "mvn deploy"
+    # https://software.rcc.uchicago.edu/git/help/ci/examples/artifactory_and_gitlab/index.md
+    - mvn deploy -DskipTests -DOSSRH_USERNAME=${OSSRH_USERNAME} -DOSSRH_TOKEN=${OSSRH_TOKEN}
   artifacts:
     paths:
       - target/*.jar
