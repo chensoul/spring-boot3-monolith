@@ -1,7 +1,7 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-image: maven:3-jdk-21
+image: maven:3.9.8-eclipse-temurin-21
 
 cache:
   paths:
