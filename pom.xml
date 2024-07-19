@@ -18,10 +18,10 @@
     <inceptionYear>2024</inceptionYear>
 
     <scm>
+        <url>https://github.com/chensoul/spring-boot3-monolith</url>
         <connection>scm:git:https://github.com/chensoul/spring-boot3-monolith.git</connection>
         <developerConnection>scm:git:https://github.com/chensoul/spring-boot3-monolith.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/chensoul/spring-boot3-monolith</url>
     </scm>
 
     <issueManagement>
