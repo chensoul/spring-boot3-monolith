@@ -13,18 +13,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 暴漏 Github Action 关键变量 https://wiki.eryajf.net/pages/77e2fe
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v4.5.0
-
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          # list of Docker images to use as base name for tags
           images: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.GITHUB_REPOSITORY_NAME_PART }}
-          # generate Docker tags based on the following events/attributes
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}
           tags: |
             type=ref,event=tag
             type=semver,pattern={{version}}
@@ -51,8 +45,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: Dockerfile.maven
+          file: Dockerfile
           platforms: linux/amd64,linux/arm64
+          target: final
           tags: ${{ steps.meta.outputs.tags }}
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
