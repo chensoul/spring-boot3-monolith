@@ -6,13 +6,11 @@ RUN sed -i -E '159a <mirror>\n<id>aliyun</id>\n<name>Aliyun Mirror</name>\n<url>
 
 FROM build AS extract
 WORKDIR /build
-COPY --from=build /build/target/*.jar .
-RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
+COPY --from=build /build/target/*.jar app.jar
+RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
 
 FROM eclipse-temurin:21-jre-jammy AS final
 WORKDIR /app
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -22,12 +20,10 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     appuser
-
-COPY --from=extract /build/extracted/dependencies/ ./
-COPY --from=extract /build/extracted/spring-boot-loader/ ./
-COPY --from=extract /build/extracted/snapshot-dependencies/ ./
-COPY --from=extract /build/extracted/application/ ./
-
+USER appuser
+COPY --from=extract /build/target/extracted/dependencies/ ./
+COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
+COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./
+COPY --from=extract /build/target/extracted/application/ ./
 EXPOSE 8080
-
-ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+ENTRYPOINT [ "java",  "org.springframework.boot.loader.launch.JarLauncher" ]
