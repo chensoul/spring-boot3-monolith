@@ -4,9 +4,9 @@ COPY . .
 RUN sed -i -E '159a <mirror>\n<id>aliyun</id>\n<name>Aliyun Mirror</name>\n<url>http://maven.aliyun.com/nexus/content/groups/public/</url>\n<mirrorOf>central</mirrorOf>\n</mirror>' /usr/share/maven/conf/settings.xml \
     && mvn -ntp -B -U clean install -DskipTests
 
-FROM eclipse-temurin:21-jre-jammy AS extract
+FROM build AS extract
 WORKDIR /build
-COPY target/*.jar app.jar
+COPY --from=build /build/target/*.jar .
 RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 
 FROM extract AS final

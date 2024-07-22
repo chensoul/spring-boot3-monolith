@@ -1,33 +1,59 @@
-name: Java CI with Docker
+# https://github.com/docker/metadata-action
+
+name: Build Docker Image
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+    tags: [ "*" ]
+  release:
+    types: [ created ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      # 暴漏 Github Action 关键变量 https://wiki.eryajf.net/pages/77e2fe
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v4.5.0
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.GITHUB_REPOSITORY_NAME_PART }}
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,latest
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build image
-        uses: docker/build-push-action@v6
-        with:
-          target: extract
-          load: true
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Publish image
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
+          dockerfile: Dockerfile.maven
           platforms: linux/amd64,linux/arm64
-          push: true
-          target: final
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          push: ${{ github.event_name != 'pull_request' }}
+          labels: ${{ steps.meta.outputs.labels }}

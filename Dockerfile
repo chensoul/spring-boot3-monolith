@@ -3,8 +3,9 @@ WORKDIR /build
 COPY target/*.jar app.jar
 RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 
-FROM extract AS final
+FROM eclipse-temurin:21-jre-jammy AS final
 WORKDIR /app
+
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
