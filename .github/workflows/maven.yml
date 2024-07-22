@@ -43,6 +43,6 @@ jobs:
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           IMAGE_NAME: ${{ github.event.repository.name }}
         run: |
-          docker build . --file Dockerfile.simple -t $DOCKER_USERNAME/$IMAGE_NAME:latest
+          docker build . --file Dockerfile -t $DOCKER_USERNAME/$IMAGE_NAME:latest
           docker login -u $DOCKER_USERNAME -p $DOCKERHUB_TOKEN
           docker push $DOCKER_USERNAME/$IMAGE_NAME:latest
