@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.3.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.chensoul</groupId>
@@ -77,7 +77,7 @@
 
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <spring-security-bom.version>6.3.1</spring-security-bom.version>
-        <testcontainers-bom.version>1.19.8</testcontainers-bom.version>
+        <testcontainers-bom.version>1.20.0</testcontainers-bom.version>
         <opentelemetry-bom.version>1.40.0</opentelemetry-bom.version>
         <pyroscope-agent.version>0.14.0</pyroscope-agent.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -87,7 +87,7 @@
         <springdoc-openapi.version>2.6.0</springdoc-openapi.version>
         <therapi-runtime-javadoc.version>0.15.0</therapi-runtime-javadoc.version>
         <postgres.version>42.7.3</postgres.version>
-        <flyway.version>10.15.2</flyway.version>
+        <flyway.version>10.16.0</flyway.version>
 
         <!--export DOCKER_IMAGE_REPO=127418365645.dkr.ecr.us-east-1.amazonaws.com -->
         <!--image.repo.name>${env.DOCKER_IMAGE_REPO}</image.repo.name-->
@@ -321,7 +321,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
-            <version>1.12.760</version>
+            <version>1.12.762</version>
             <optional>true</optional>
         </dependency>
 
@@ -404,7 +404,7 @@
 
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <useFile>false</useFile>
                         <includes>
