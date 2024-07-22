@@ -18,7 +18,7 @@ node {
 
        stage('Docker build'){
             sh '''
-            docker build . -f Dockerfile.maven -t spring-boot3-monolith
+            docker build . -f Dockerfile -t spring-boot3-monolith
             docker tag spring-boot3-monolith chensoul/spring-boot3-monolith:latest
             docker push chensoul/spring-boot3-monolith:latest
             '''

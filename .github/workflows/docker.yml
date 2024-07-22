@@ -45,7 +45,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: Dockerfile
+          file: Dockerfile.maven
           platforms: linux/amd64,linux/arm64
           target: final
           tags: ${{ steps.meta.outputs.tags }}

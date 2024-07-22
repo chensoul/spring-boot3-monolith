@@ -32,10 +32,10 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        run: mvn --ntp dependency:go-offline test
+        run: mvn -ntp dependency:go-offline test
 
       - name: Package with Maven
-        run: mvn --ntp package -DskipTests -Dmaven.javadoc.skip=true -Dmaven.source.skip
+        run: mvn -ntp package -DskipTests
 
       - name: Build and Push Docker Image
         env:
