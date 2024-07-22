@@ -6,7 +6,7 @@ RUN sed -i -E '159a <mirror>\n<id>aliyun</id>\n<name>Aliyun Mirror</name>\n<url>
 
 FROM build AS extract
 WORKDIR /build
-COPY --from=build /build/target/*.jar app.jar
+COPY --from=build target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
 
 FROM eclipse-temurin:21-jre-jammy AS final

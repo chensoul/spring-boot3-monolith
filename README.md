@@ -155,7 +155,7 @@ docker build -t chensoul/spring-boot3-monolith-test --progress=plain --no-cache 
 docker compose up --build
 ```
 
-使用 Dockerfile.simple 文件构建镜像：
+使用 Dockerfile.maven 文件构建镜像：
 
 ```bash
 docker build . --file Dockerfile.maven -t chensoul/spring-boot3-monolith
